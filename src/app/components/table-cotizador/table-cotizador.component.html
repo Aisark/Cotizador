@@ -1,0 +1,81 @@
+<div class="table-responsive" *ngIf="lista">
+    <table class="table table-shopping">
+
+        <!-- #region Cabecera de la tabla-->
+        <thead class="">
+
+            <th>#</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Importe</th>
+            <th class="text-right">Acciones</th>
+
+        </thead>
+        <!-- #endregion -->
+
+        <!-- #region Cuerpo de la Tabla-->
+        <tbody>
+            <tr *ngFor="let item of lista; let i=index">
+                <td>{{i+1}}</td>
+                <td>{{item.producto.title}}</td>
+                <td class="td-input-number">
+                    <div class="row">
+                        <div class="col col-sm-6">
+                            <input #inputCantidad (keyup)="change(item, $event)" class="form-control" [value]="item.cantidad" type="number" min="1" name="cantidad" id="cantidad">
+                        </div>
+                        <div class="col col-sm-6">
+                            <div class="btn-group">
+                                <button (click)="changeItemCantidad(item, -1)" class="btn btn-primary btn-sm"> <i class="mdi mdi-minus"></i> </button>
+                                <button (click)="changeItemCantidad(item, 1)" class="btn btn-primary btn-sm"> <i class="mdi mdi-plus"></i> </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+                <td>${{item.producto.precio.publico}}</td>
+                <td>${{item.cantidad * item.producto.precio.publico}}</td>
+                <td class="text-right">
+                    <button (click)="removeItem(item)" type="button" data-placement="left" title="Remove item" class="btn btn-sm btn-danger">
+                            <i class="mdi mdi-close"></i>
+                    </button>
+                </td>
+            </tr>
+
+            <!-- #region Envío-->
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"><strong>Costo de Envío:</strong></td>
+                <ng-container *ngIf="enviogratis; else elseTemplate">
+                    <td>Envío Gratis</td>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <td>$150</td>
+                </ng-template>
+
+            </tr>
+            <!-- #endregion -->
+
+
+            <!-- #region Celda para el Total de Compra-->
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"><strong>Total:</strong></td>
+                <td class="">${{cotizacion.totalCompra}}</td>
+            </tr>
+            <!-- #endregion -->
+        </tbody>
+        <!-- #endregion -->
+
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-md-4 offset-md-8">
+        <button (click)="showModal()" class="btn btn-success btn-block"><i class="mdi mdi-plus"></i> Agregar Producto</button>
+    </div>
+</div>
