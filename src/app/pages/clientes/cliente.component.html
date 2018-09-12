@@ -1,0 +1,75 @@
+<div class="container-fluid">
+
+    <!-- #region Datos Cliente-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Crear Nuevo Cliente</h1>
+                    <form ngNativeValidate #f="ngForm" (ngSubmit)="createCliente(f)" class="forms-sample">
+                        <div class="row">
+                            <div class="form-group col-md-5">
+                                <label for="nombre">Nombre Cliente</label>
+                                <input ngModel name="nombre" required type="text" class="form-control" placeholder="Ingresar nombre">
+                            </div>
+
+                            <div class="form-group col-md-5">
+                                <label for="correo">Correo</label>
+                                <input ngModel name="correo" required type="email" class="form-control" placeholder="Ingresar correo">
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                      <input ngModel name="local" [checked]="local" (change)="local = !local" type="checkbox" class="form-check-input"> Local
+                                      <i class="input-helper"></i>
+                                  </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" *ngIf="!local">
+                            <div class="form-group col-md-5">
+                                <label for="direccion">Direción</label>
+                                <input ngModel name="direccion" [required]="!local" type="text" class="form-control" placeholder="Ingresar dirección">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="coloniaInput">Colonia</label>
+                                <input ngModel name="colonia" [required]="!local" type="text" class="form-control" placeholder="Ingresar Colonia">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="codigoInput">Codigo Postal</label>
+                                <input ngModel name="codigo_postal" [required]="!local" type="number" class="form-control" placeholder="Ingresar Codigo Postal">
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!local">
+                            <div class="form-group col-md-7">
+                                <label for="referenciaInput">Referencias</label>
+                                <input ngModel name="referencia" [required]="!local" type="text" class="form-control" placeholder="Ingresar Referencias">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="ciudadInput">Ciudad</label>
+                                <input ngModel name="ciudad" [required]="!local" type="text" class="form-control" placeholder="Ingresar dirección">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label for="estadoInput">Estado</label>
+                                <input ngModel name="estado" required type="text" class="form-control" placeholder="Ingresar Colonia">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="telfonoInput">Num. Telefono</label>
+                                <input ngModel name="telfono" required type="number" class="form-control" placeholder="Ingresar Num. Telfonico">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success mr-2">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #endregion -->
+
+</div>

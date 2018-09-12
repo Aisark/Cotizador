@@ -1,23 +1,17 @@
 import { Producto } from './producto';
 import { Usuario } from './usuario';
-
-
-export class Itemlista {
-    constructor(
-        public cantidad: number,
-        public producto: Producto
-    ) {}
-}
+import { ItemLista } from './item-lista';
 
 
 export class Cotizacion {
 
     constructor(
         public id: string,
-        public nombreCliente?: string,
-        public cliente?: Usuario,
+        public usuario: string,
         public fecha?: string,
-        public lista_productos?: Array<Itemlista>,
+        public status?: string,
+        public cliente?: Usuario,
+        public lista_productos?: Array<ItemLista>,
         public totalCompra?: number
     ) {}
 }

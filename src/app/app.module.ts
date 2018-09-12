@@ -7,20 +7,30 @@ import { AppComponent } from './app.component';
 // Modulos
 import { ShareModule } from './share/share.module';
 import { PagesModule } from './pages/pages.module';
+import { HttpClientModule } from '@angular/common/http';
+import { PipesModule } from '@pipes/pipes.module';
+import { ClienteComponent } from './pages/clientes/cliente.component';
+import { FormsModule } from '@angular/forms';
+
+
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ClienteComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
+    FormsModule,
     AppRoutingModule,
     ShareModule,
-    PagesModule
+    PagesModule,
+    PipesModule
   ],
-  providers: [
-  ],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
+  exports: [ClienteComponent]
 })
 export class AppModule { }

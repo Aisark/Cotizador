@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+// URL para AWS API Gateway
+import { URL_SERVICES } from '@config/config';
 
 // Modelos
-import { Cotizacion } from '@models/cotizacion';
+import { Cotizacion, ItemLista, Producto, Usuario } from '@models/models.index';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CotizacionService {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   createCotizacion (cotizacion: Cotizacion) {
     return new Promise( (resolve) => {
@@ -16,18 +23,15 @@ export class CotizacionService {
     });
   }
 
-  readCotizacion (id: string): Promise<Cotizacion> {
-    return new Promise( (resolve)  => {
-      const cotizacion = {
-        id: '#01',
-        nombreCliente: 'Paty',
-        cliente: null,
-        fecha: '20/10/2018',
-        lista_productos: [],
-        totalCompra: 0
-      };
-      resolve(cotizacion);
-    });
+  getCotizaciones (page?: any) {
+
+    let url = `${URL_SERVICES}/cotizacion`;
+
+    if (page !== undefined) {
+      url = `${url}?id=${page.id}`;
+    }
+
+    return this.http.get(url);
   }
 
   updateCotizacion (cotizacion: Cotizacion) {}

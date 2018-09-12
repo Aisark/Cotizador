@@ -4,7 +4,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { ModalSearchService } from '@components/modal-search/modal-search.service';
 
 // Clases
-import { Cotizacion, Itemlista } from '@models/cotizacion';
+import { Cotizacion, ItemLista } from '@models/models.index';
 import {Producto} from '@models/producto';
 
 
@@ -19,7 +19,7 @@ export class TableCotizadorComponent implements OnInit {
 
   cotizacion: Cotizacion;
 
-  lista: Itemlista[];
+  lista: ItemLista[];
 
   inputCantidad: ElementRef;
 
@@ -36,7 +36,7 @@ export class TableCotizadorComponent implements OnInit {
   public getTotal() {
     this.cotizacion.totalCompra = 0;
     if ( this.lista.length > 0 ) {
-      this.lista.forEach( (element: Itemlista) => {
+      this.lista.forEach( (element: ItemLista) => {
         this.cotizacion.totalCompra += ( element.cantidad * element.producto.precio['publico']);
       });
 
@@ -49,7 +49,7 @@ export class TableCotizadorComponent implements OnInit {
     }
   }
 
-  public changeItemCantidad(producto: Itemlista, valor: number) {
+  public changeItemCantidad(producto: ItemLista, valor: number) {
 
     if (valor === 1 || valor === -1) {
       if ( (producto.cantidad + valor ) >= 0 ) {
@@ -66,7 +66,7 @@ export class TableCotizadorComponent implements OnInit {
 
   }
 
-  public removeItem(item: Itemlista) {
+  public removeItem(item: ItemLista) {
     console.log(this.lista.indexOf(item));
 
     const pocision = this.lista.indexOf(item);
@@ -77,7 +77,7 @@ export class TableCotizadorComponent implements OnInit {
   }
 
   public addItem() {
-    this.lista.push(new Itemlista(
+    this.lista.push(new ItemLista(
       1,
       this.productos[1]
     ));
@@ -85,7 +85,7 @@ export class TableCotizadorComponent implements OnInit {
     this.getTotal();
   }
 
-  public change(producto: Itemlista, event: KeyboardEvent) {
+  public change(producto: ItemLista, event: KeyboardEvent) {
     if ((<HTMLInputElement>event.target).value !== undefined && (<HTMLInputElement>event.target).value !== '') {
       const numero = (<HTMLInputElement>event.target).value;
       producto.cantidad = ( +numero >= 0) ? +numero : producto.cantidad;
