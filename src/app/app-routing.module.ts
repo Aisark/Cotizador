@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'cotizador/:id', component: CotizadorComponent },
   { path: 'cliente/:id', component: ClienteComponent },
   { path: 'clientes', component: ClientesComponent },
-  {path: '', redirectTo: '/cotizaciones', pathMatch: 'full'},
+  {path: '', redirectTo: '/clientes', pathMatch: 'full'},
   { path: '**', component: Page404Component }
 ];
 

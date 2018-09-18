@@ -1,63 +1,47 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import { Producto } from '@models/producto';
-import { resolve } from 'path';
+// URL
+import { URL_SERVICES } from '@config/config';
+
+// Models 
+import { Producto, Tipo } from '@models/models.index';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
 
-  constructor() { }
+  private tipos: Tipo[];
+ 
+  constructor(
+    private http: HttpClient
+  ) { }
 
-  getProductoByName(name: string): Promise<Producto> {
-    // tslint:disable-next-line:no-shadowed-variable
-    return new Promise((resolve) => {
+  getTipoProductos (): Promise<Array<Tipo>> {
 
-      const producto = {
-        title: 'Jabón de mandarina',
-        tipo: 'jabón',
-        precio: {
-          publico: 150,
-          dOcasional: 125,
-          dPreferencial: 100
+    const url = `${URL_SERVICES}/productos/tipos`;
+
+    return new Promise( (resolve, reject) => {
+      this.http.get(url)
+      .subscribe(
+        (res: any) => {
+          this.tipos = res;
+          resolve(this.tipos);  
         },
-        isAviable: true
-      };
 
-      resolve(producto);
+        (err) => {
+          reject(err);
+        }
+      );
     });
+    
   }
 
-  getProductoByTipo(tipo: string): Promise<Producto> {
-    // tslint:disable-next-line:no-shadowed-variable
-    return new Promise( (resolve)  => {
-
-      const producto = {
-        title: 'Jabón de mandarina',
-        tipo: 'jabón',
-        precio: {
-          publico: 150,
-          dOcasional: 125,
-          dPreferencial: 100
-        },
-        isAviable: true
-      };
-
-      resolve(producto);
-    });
-  }
-
-  createNewProducto (producto: Producto) {
-  }
-
-  updateProducto (producto: Producto) {
-  }
-
-  getListProductByTipo (tipo: string) {
-  }
-
-  searchProduct (termino: string) {
+  getProductsByType (tipo: string) {
+    const url = `${URL_SERVICES}/productos/${tipo}`;
+    console.log(url);
+    return this.http.get(url);
   }
 
 }

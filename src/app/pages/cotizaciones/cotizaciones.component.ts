@@ -26,8 +26,7 @@ export class CotizacionesComponent implements OnInit {
   getCotizaciones (page?: any) {
     this.cotizacion.getCotizaciones(page)
       .subscribe( (res: any) => {
-        const data = res.data;
-        this.cotizaciones = data.Items;
+        this.cotizaciones = res.Items;
       });
   }
 

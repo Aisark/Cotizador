@@ -5,13 +5,15 @@ import { HttpClient } from '@angular/common/http';
 import { URL_SERVICES } from '@config/config';
 
 // Modelos
-import { Cotizacion, ItemLista, Producto, Usuario } from '@models/models.index';
+import { Cotizacion, ItemLista, Producto, Usuario, Cliente } from '@models/models.index';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class CotizacionService {
+
+  public cliente: Cliente;
 
   constructor(
     private http: HttpClient

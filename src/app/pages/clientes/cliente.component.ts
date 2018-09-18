@@ -53,7 +53,7 @@ export class ClienteComponent implements OnInit {
             title: `Se ha agregado existosamente`,
             text: `${this.cliente.nombre}`
           }).then( (result: any) => {
-            this._router.navigate(['/cotizaciones']);
+            this._router.navigate(['/cotizador', 'nuevo']);
           });
         },
         error => {

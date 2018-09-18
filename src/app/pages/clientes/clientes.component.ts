@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 // Services
 import { ClienteService } from '@services/cliente/cliente.service';
+import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 
 // Models
 import { Cliente } from '@models/models.index';
@@ -18,7 +20,9 @@ export class ClientesComponent implements OnInit {
 
 
   constructor(
-    private _clienteServices: ClienteService
+    private _clienteServices: ClienteService,
+    private _cotizacionesServices: CotizacionService,
+    private _router: Router
   ) { }
 
   ngOnInit() {
@@ -30,9 +34,13 @@ export class ClientesComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.clientes = res.Items;
-          console.log(this.clientes);
         }
       );
   }
 
+  createCotizacion (cliente: Cliente) {
+    this._cotizacionesServices.cliente = cliente;
+
+    this._router.navigate(['/cotizador', 'nuevo']);
+  }
 }

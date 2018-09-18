@@ -16,11 +16,11 @@ export class TipoProductoService {
   ) { }
 
   getTiposProductos() {
-    const url = `${URL_SERVICES}/cotizacion/new`;
-    return this.http.post(url, {})
-      .pipe(
-        map( (res: any) => res)
-      );
+    // const url = `${URL_SERVICES}/cotizacion/new`;
+    // return this.http.post(url, {})
+    //   .pipe(
+    //     map( (res: any) => res)
+    //   );
   }
 
 }

@@ -2,18 +2,34 @@
 <app-preloader *ngIf="!clientes"></app-preloader>
 <!-- #endregion -->
 
+<!-- #region Boton crear Nuevo Cliente-->
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">Seleccionar Cliente</h1>
+                <button routerLinkActive="active" [routerLink]="['/cliente','nuevo']" class="btn btn-success">Agregar Cliente
+                    <i class="mdi mdi-plus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- #endregion -->
+
+<!-- #region Tabla de los Clientes-->
 <div class="row" *ngIf="clientes">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Seleccionar Cliente</h4>
+                <h4 class="card-title">Lista de Clientes</h4>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Correo</th>
-                                <th>Esado</th>
+                                <th>Estado</th>
                                 <th>Acciones</th>
                                 <th></th>
                                 <th></th>
@@ -26,7 +42,7 @@
                                 <td>{{cliente.estado}}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-primary btn-sm"> <i class="mdi mdi-minus"></i> </button>
+                                        <button (click)="createCotizacion(cliente)" class="btn btn-primary btn-sm"> <i class="mdi mdi-plus"></i> cotización </button>
                                     </div>
                                 </td>
                                 <td></td>
@@ -52,3 +68,4 @@
         </div>
     </div>
 </div>
+<!-- #endregion -->

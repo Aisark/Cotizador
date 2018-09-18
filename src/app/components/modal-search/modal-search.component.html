@@ -6,82 +6,80 @@
                 <!-- #region Cabecera Modal-->
                 <div class="modal-header">
                     <h5 class="modal-title">Agregar Nuevo Producto</h5>
-                    <button type="button" class="close" aria-label="Close">
+                    <button (click)="hiddeModal()" type="button" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <!-- #endregion -->
 
-                <!-- #region Formulario-->
+                <!-- #region Modal del Formulario-->
                 <div class="modal-body text-center">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <select id="inputState" class="form-control">
-                                        <option >Tipo de Producto</option>
-                                        <option *ngFor="let tipo of tipos">
-                                            {{tipo.name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Username</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Fist Name</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Last Name</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                        </div>
+
+                    <!-- #region Formulario-->
+                    <form ngNativeValidate #f="ngForm" class="forms-sample">
+
+                        <!-- #region Preloader-->
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Adress</label>
-                                    <input type="text" class="form-control">
-                                </div>
+                                <app-preloader *ngIf="!tipos"></app-preloader>
                             </div>
                         </div>
+                        <!-- #endregion -->
+
+                        <div class="row justify-content-center align-items-center" *ngIf="tipos">
+                            <div class="form-group col col-md-6">
+                                <label for="exampleFormControlSelect2">Elegir tipo de producto</label>
+                                <select [(ngModel)]="tipo" (change)="selected($event.target.value)" class="form-control" id="exampleFormControlSelect2">
+                                    <option value=""></option>
+                                    <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{tipo.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">City</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="bmd-label-floating">Country</label>
-                                    <input type="text" class="form-control">
+                            <div class="col-lg-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Producto</th>
+                                                        <th>Precio</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>Producto</td>
+                                                        <td>$1,000</td>
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <button class="btn btn-primary btn-sm"> <i class="mdi mdi-plus"></i> agregar </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="clearfix"></div>
+
                     </form>
-                </div>
-                <!-- #endregion -->
+                    <!-- #endregion -->
 
-                <!-- #region Footer Modal-->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Subir imagenes</button>
-                    <button (click)="hiddeModal()" type="button" class="btn btn-secondary">Cancelar</button>
-                </div>
-                <!-- #endregion -->
+                    <!-- #region Footer Modal-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Agregar producto</button>
+                        <button (click)="hiddeModal()" type="button" class="btn btn-secondary">Cancelar</button>
+                    </div>
+                    <!-- #endregion -->
 
+                </div>
             </div>
         </div>
     </div>
-</div>

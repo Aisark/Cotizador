@@ -1,13 +1,26 @@
 <div class="container-fluid">
 
+    <!-- #region Titulo-->
+    <div class="row" *ngIf="cliente">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="subtitle">Crear Cotización</h1>
+                    <h3 class="card-title">Para: {{cliente.nombre}} - {{cliente.estado}}</h3>
+                    <hr>
+                    <h1 class="card-title">Fecha: {{date.getDate()}}/{{date.getMonth() + 1}}/{{date.getFullYear()}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #endregion -->
+
     <!-- #region Tablas-->
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-
                     <app-table-cotizador></app-table-cotizador>
-
                 </div>
             </div>
         </div>
