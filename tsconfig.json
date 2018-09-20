@@ -25,7 +25,8 @@
       "@services/*": ["app/services/*"],
       "@models/*": ["app/models/*"],
       "@config/*": ["app/config/*"],
-      "@pipes/*": ["app/pipes/*"]
+      "@pipes/*": ["app/pipes/*"],
+      "@enums/*": ["app/enums/*"]
     }
 
   }

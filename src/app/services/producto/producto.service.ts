@@ -40,7 +40,6 @@ export class ProductoService {
 
   getProductsByType (tipo: string) {
     const url = `${URL_SERVICES}/productos/${tipo}`;
-    console.log(url);
     return this.http.get(url);
   }
 

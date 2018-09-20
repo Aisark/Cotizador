@@ -4,13 +4,16 @@ import { NgForm } from '@angular/forms';
 
 // Services
 import { TipoProductoService } from '@services/tipo-producto/tipo-producto.service';
+import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 
 // Models
 import { Cliente } from '@models/cliente';
 
+// Enums
+import { TipoCliente } from 'app/enums/tipo-cliente.enum';
+
 // Otras
 import swal from 'sweetalert2';
-import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 
 
 @Component({
@@ -23,6 +26,8 @@ export class CotizadorComponent implements OnInit {
   private local = false;
   private cliente: Cliente;
   private date = new Date;
+  private TipoCliente = TipoCliente;
+  private tipo_precio = this.TipoCliente.PUBLICO;
 
   // @ViewChild('localInput') localInput: ElementRef;
 

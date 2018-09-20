@@ -27,17 +27,18 @@
                         <!-- #endregion -->
 
                         <div class="row justify-content-center align-items-center" *ngIf="tipos">
-                            <div class="form-group col col-md-6">
+                            <div class="form-group col col-md-4">
                                 <label for="exampleFormControlSelect2">Elegir tipo de producto</label>
-                                <select [(ngModel)]="tipo" (change)="selected($event.target.value)" class="form-control" id="exampleFormControlSelect2">
+                                <select [(ngModel)]="tipo" name="tipo" (change)="selected($event.target.value)" class="form-control" id="exampleFormControlSelect2">
                                     <option value=""></option>
-                                    <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{tipo.name}}</option>
+                                    <option *ngFor="let tipo of tipos" [value]="tipo.name">{{tipo.name}}</option>
                                 </select>
                             </div>
                         </div>
 
+                        <!-- #region Tabla de Productos-->
                         <div class="row">
-                            <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="col-lg-12 grid-margin stretch-card" *ngIf="addListProducts.length > 0">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -50,16 +51,27 @@
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>Producto</td>
-                                                        <td>$1,000</td>
+                                                <tbody style="max-height: 200px">
+                                                    <tr *ngFor="let producto of addListProducts">
                                                         <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-primary btn-sm"> <i class="mdi mdi-plus"></i> agregar </button>
+                                                            <div class="form-group" style="margin-bottom: 0 !important;">
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label">
+                                                                      <input [checked]="producto.isAdd" (change)="producto.isAdd = !producto.isAdd" name="local" type="checkbox" class="form-check-input">
+                                                                      <i class="input-helper"></i>
+                                                                    </label>
+                                                                </div>
                                                             </div>
                                                         </td>
+                                                        <td>{{producto.producto.name}}</td>
+                                                        <td>
+                                                            <ng-container [ngSwitch]="tipo_precio">
+                                                                <ng-container *ngSwitchCase="tipoCliente.PUBLICO">{{producto.producto.precio.publico}}</ng-container>
+                                                                <ng-container *ngSwitchCase="tipoCliente.DISTRIBUIDOR_OCASIONAL">{{producto.producto.precio.distribuidor_ocasional}}</ng-container>
+                                                                <ng-container *ngSwitchCase="tipoCliente.DISTRIBUIDOR_PREFERENCIAL">{{producto.producto.precio.distribuidor_preferencial}}</ng-container>
+                                                            </ng-container>
+                                                        </td>
+                                                        <td></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -68,13 +80,14 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- #endregion -->
 
                     </form>
                     <!-- #endregion -->
 
                     <!-- #region Footer Modal-->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Agregar producto</button>
+                        <button (click)="addProducts()" type="button" class="btn btn-primary">Agregar producto</button>
                         <button (click)="hiddeModal()" type="button" class="btn btn-secondary">Cancelar</button>
                     </div>
                     <!-- #endregion -->

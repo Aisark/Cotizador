@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import Swal from 'sweetalert2';
 
@@ -7,17 +7,22 @@ import { ModalSearchService } from '@components/modal-search/modal-search.servic
 import { ProductoService } from '@services/producto/producto.service';
 
 // Class
-import { Tipo, AddListProducts } from '@models/models.index';
+import { Tipo, AddListProducts, Producto } from '@models/models.index';
 
+// Enums
+import { TipoCliente } from 'app/enums/tipo-cliente.enum';
 
 @Component({
   selector: 'app-modal-search',
-  templateUrl: './modal-search.component.html'
+  templateUrl: './modal-search.component.html',
+  styleUrls: ['./modal-search.component.css']
 })
 export class ModalSearchComponent implements OnInit {
 
   private tipos: Tipo[];
-  private addListProducts: AddListProducts[];
+  private addListProducts: AddListProducts[] = [];
+  private tipoCliente = TipoCliente;
+  @Input('tipo_precio') tipo_precio = TipoCliente.PUBLICO;
 
   constructor(
     private _modalSearch: ModalSearchService,
@@ -26,6 +31,11 @@ export class ModalSearchComponent implements OnInit {
 
   ngOnInit() {
     this.getTiposProductos();
+  }
+
+  public showTipoCliente(value: any) {
+    this.tipo_precio = +value + 1;
+    console.log(this.tipo_precio);
   }
 
   public hiddeModal () {
@@ -42,13 +52,39 @@ export class ModalSearchComponent implements OnInit {
     if ( value !== '') {
       this.getProductsByTipe(value);
     }
+
   }
 
   public getProductsByTipe (tipo: string) {
+
+    this.addListProducts = [];
+
     this._productService.getProductsByType(tipo)
       .subscribe(
-        (res: any) => console.log(res)
+        (res: any) => {
+          res.Items.forEach(item => {
+            if (item.isAviable) {
+              this.addListProducts.push({
+                isAdd: false,
+                producto: item
+              });
+            }
+          });
+        }
       );
+  }
+
+  public addProducts() {
+    let productos: Producto[] = [];
+
+    this.addListProducts.forEach( (item: any) => {
+      if (item.isAdd) {
+        productos.push(item.producto);
+      }
+    });
+
+    this._modalSearch.newProductos.emit(productos);
+    this._modalSearch.hideModal();
   }
 
 }
