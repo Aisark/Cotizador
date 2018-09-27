@@ -1,15 +1,16 @@
-import { Producto } from './producto';
 import { ItemLista } from './item-lista';
-import { Cliente } from './cliente';
+import { DatosCliente } from './datos-cliente';
+import { EstatusCotizacion } from '../enums/estatus-cotizacion.enum';
+
 
 
 export class Cotizacion {
 
     constructor(
         public id: string,
-        public numero: string,
-        public cliente: Cliente,
-        public status?: string,
+        public numero: number,
+        public cliente?: DatosCliente,
+        public status?: EstatusCotizacion,
         public lista_productos?: Array<ItemLista>,
         public totalCompra?: number,
         public envio_gratis?: boolean,

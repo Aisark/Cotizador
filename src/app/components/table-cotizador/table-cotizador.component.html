@@ -102,3 +102,9 @@
         <button (click)="showModal()" class="btn btn-success btn-block"><i class="mdi mdi-plus"></i> Agregar Producto</button>
     </div>
 </div>
+
+<div class="row" *ngIf="lista.length > 0">
+    <div class="col-md-4 offset-md-8" style="margin-top: 20px;">
+        <button (click)="saveCotizacion()" class="btn btn-primary btn-block">Enviar Cotización <i class="mdi mdi-send"></i> </button>
+    </div>
+</div>

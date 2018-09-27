@@ -11,10 +11,10 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th># Cotización</th>
-                                <th>Nombre</th>
-                                <th>Lugar</th>
                                 <th>Fecha</th>
+                                <th>Nombre del cliente</th>
+                                <th>Destino</th>
+                                <th>Estatus</th>
                                 <th>Monto</th>
                                 <th>Acciones</th>
                             </tr>
@@ -22,10 +22,12 @@
                         <tbody>
                             <tr *ngFor="let cotizacion of cotizaciones">
                                 <td>{{cotizacion.id}}</td>
-                                <td>{{cotizacion.usuario}}</td>
-                                <td>$ 77.99</td>
-                                <td> May 15, 2015</td>
-                                <td></td>
+                                <td>{{cotizacion.cliente.nombre}}</td>
+                                <td>{{cotizacion.cliente.estado}}</td>
+                                <td>
+                                    <label [class]="cotizacion.status | estatusPedidoColor" class="badge badge-warning">{{cotizacion.status | estatusPedido}}</label>
+                                </td>
+                                <td>${{cotizacion.totalCompra}}</td>
                                 <td>
                                     <div class="btn-group">
                                         <button class="btn btn-primary btn-sm"> <i class="mdi mdi-minus"></i> </button>
@@ -38,13 +40,10 @@
             </div>
 
             <div class="card-footer text-muted">
-                <nav aria-label="Page navigation example">
+                <nav aria-label="Page navigation example" *ngIf="nextDates != undefined || nextDates != null">
                     <ul class="pagination justify-content-center">
                         <li class="page-item">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" tabindex="-1">Next</a>
+                            <a class="page-link" (click)="getCotizaciones()" tabindex="-1">Cargar más</a>
                         </li>
                     </ul>
                 </nav>

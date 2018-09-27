@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Cotizacion, ItemLista, Usuario } from '@models/models.index';
+import { Cotizacion } from '@models/models.index';
 
 // Services
 import { CotizacionService } from '@services/cotizacion/cotizacion.service';
@@ -12,21 +12,31 @@ import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 export class CotizacionesComponent implements OnInit {
 
   private cotizaciones: Cotizacion[];
-  private prevPage: any;
-  private nextPAge: any;
+  private nextDates: any;
 
   constructor(
-    private cotizacion: CotizacionService
-  ) { }
+    private _cotizacionServices: CotizacionService,
+  ) { 
+    this.cotizaciones = [];
+    this.nextDates = undefined;
+  }
 
   ngOnInit() {
     this.getCotizaciones();
   }
 
-  getCotizaciones (page?: any) {
-    this.cotizacion.getCotizaciones(page)
+  getCotizaciones () {
+
+    let page = this.nextDates;
+
+    this._cotizacionServices.getCotizaciones(page)
       .subscribe( (res: any) => {
-        this.cotizaciones = res.Items;
+
+        res.Items.forEach( (item: Cotizacion) => {
+           this.cotizaciones.push(item);
+        });
+        
+        this.nextDates = res.LastEvaluatedKey;
       });
   }
 

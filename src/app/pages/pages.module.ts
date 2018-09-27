@@ -11,12 +11,16 @@ import { CotizacionesComponent } from './cotizaciones/cotizaciones.component';
 import { PreloaderComponent } from '../components/preloader/preloader.component';
 import { Page404Component } from './page404/page404.component';
 import { ClientesComponent } from './clientes/clientes.component';
+import { PipesModule } from '@pipes/pipes.module';
+
+// Pipes
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    PipesModule
   ],
   declarations: [
     CotizadorComponent,

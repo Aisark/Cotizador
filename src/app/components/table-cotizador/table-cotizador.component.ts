@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, EventEmitter, Output } from '@angular/core';
 
 // Services
 import { ModalSearchService } from '@components/modal-search/modal-search.service';
@@ -9,6 +9,7 @@ import {Producto} from '@models/producto';
 
 // Enums
 import { TipoCliente } from 'app/enums/tipo-cliente.enum';
+import { EstatusCotizacion } from 'app/enums/estatus-cotizacion.enum';
 
 @Component({
   selector: 'app-table-cotizador',
@@ -16,8 +17,6 @@ import { TipoCliente } from 'app/enums/tipo-cliente.enum';
   styleUrls: ['./table-cotizador.component.scss']
 })
 export class TableCotizadorComponent implements OnInit {
-
-  // productos: Producto[];
 
   private cotizacion: Cotizacion;
   private lista: ItemLista[] = [];
@@ -27,17 +26,26 @@ export class TableCotizadorComponent implements OnInit {
   private tipo_precio: TipoCliente;
   private subtotal = 0;
 
+  // Variables de entrada
   @Input('tipo_precio') set _tipo_precio (value: TipoCliente) {
     this.tipo_precio = value;
     this.getTotal();
   }
+
+  @Input('cotizacionSet') set cotizacionSet (value: Cotizacion) {
+    this.cotizacion = value;
+  }
+
+  // Variables de salida
+  // tslint:disable-next-line:no-output-rename
+  @Output('cotizacionSend') contizacion_emit: EventEmitter<Cotizacion> = new EventEmitter();
 
   constructor(
     public _modalSearch: ModalSearchService
   ) {
     this.cotizacion = {
       id: 'usuario',
-      usuario: 'usuario',
+      numero: 0,
       lista_productos: this.lista,
       totalCompra: 0
     };
@@ -154,6 +162,18 @@ export class TableCotizadorComponent implements OnInit {
         }
       }, 3000);
     }
+  }
+
+  /**
+   * @description Emite un objeto Cotizacion para ser guardado
+   */
+  public saveCotizacion () {
+    this.cotizacion.lista_productos = this.lista;
+    this.cotizacion.envio_gratis = this.enviogratis;
+    this.cotizacion.status = EstatusCotizacion.Pendiente;
+
+    this.contizacion_emit.emit(this.cotizacion);
+
   }
 
   public showModal () {

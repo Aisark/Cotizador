@@ -1,4 +1,10 @@
-export class Cliente {
+import { DatosCliente } from './datos-cliente';
+
+export class Cliente extends DatosCliente {
+
+    public lista_cotizaciones?: Array<string>;
+    public numero_compras?: number;
+    public total_compras?: number;
 
     constructor (
         public correo: string,
@@ -6,14 +12,13 @@ export class Cliente {
         public telefono: number,
         public nombre: string,
         public local: boolean,
-        public direccion?: string,
-        public codigo_postal?: string,
-        public colonia?: string,
-        public referencia?: string,
-        public ciudad?: string,
-        public lista_cotizaciones?: Array<string>,
-        public numero_compras?: number,
-        public total_compras?: number,
-        public tipo_cliente?: string
-    ) {}
+    ) {
+        super(
+            correo,
+            estado,
+            telefono,
+            nombre,
+            local
+        );
+    }
 }

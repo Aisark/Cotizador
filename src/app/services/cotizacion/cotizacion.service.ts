@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { URL_SERVICES } from '@config/config';
 
 // Modelos
-import { Cotizacion, ItemLista, Producto, Usuario, Cliente } from '@models/models.index';
+import { Cotizacion, Cliente } from '@models/models.index';
 
 
 @Injectable({
@@ -19,18 +19,22 @@ export class CotizacionService {
     private http: HttpClient
   ) { }
 
+  /**
+   * @description Guarda un Objeto Cotizacion en la BD de AWS
+   * @param cotizacion Objeto de tipo Cotizacion, que sera guardada en la BD de AWS
+   */
   createCotizacion (cotizacion: Cotizacion) {
-    return new Promise( (resolve) => {
-      resolve('Cotizacion creada exitosamente');
-    });
+    const url = `${URL_SERVICES}/cotizacion/new`;
+
+    return this.http.post(url, cotizacion);
   }
 
   getCotizaciones (page?: any) {
 
     let url = `${URL_SERVICES}/cotizacion`;
 
-    if (page !== undefined) {
-      url = `${url}?id=${page.id}`;
+    if (page !== undefined && page !== null) {
+      url = `${url}?id=${page.id}&numero=${page.numero}`;
     }
 
     return this.http.get(url);
