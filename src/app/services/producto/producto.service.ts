@@ -38,8 +38,11 @@ export class ProductoService {
     
   }
 
-  getProductsByType (tipo: string) {
-    const url = `${URL_SERVICES}/productos/${tipo}`;
+  getProductsByType (tipo: string, comple?: string) {
+    let url = `${URL_SERVICES}/productos/${tipo}`;
+    if (comple) {
+      url = `${url}?c=false`;
+    }
     return this.http.get(url);
   }
 
