@@ -10,7 +10,9 @@ import { ClientesComponent } from '@pages/clientes/clientes.component';
 
 const routes: Routes = [
   { path: 'cotizaciones', component: CotizacionesComponent },
+  { path: 'cotizaciones/:id', component: CotizacionesComponent },
   { path: 'cotizador/:id', component: CotizadorComponent },
+  { path: 'cotizador/:id/:numero', component: CotizadorComponent },
   { path: 'cliente/:id', component: ClienteComponent },
   { path: 'clientes', component: ClientesComponent },
   {path: '', redirectTo: '/clientes', pathMatch: 'full'},

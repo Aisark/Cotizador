@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // URL para AWS API Gateway
@@ -14,6 +14,7 @@ import { Cotizacion, Cliente } from '@models/models.index';
 export class CotizacionService {
 
   public cliente: Cliente;
+  public emitCliente = new EventEmitter<Cotizacion>();
 
   constructor(
     private http: HttpClient
@@ -23,13 +24,13 @@ export class CotizacionService {
    * @description Guarda un Objeto Cotizacion en la BD de AWS
    * @param cotizacion Objeto de tipo Cotizacion, que sera guardada en la BD de AWS
    */
-  createCotizacion (cotizacion: Cotizacion) {
+  public createCotizacion (cotizacion: Cotizacion) {
     const url = `${URL_SERVICES}/cotizacion/new`;
 
     return this.http.post(url, cotizacion);
   }
 
-  getCotizaciones (page?: any) {
+  public getCotizaciones (page?: any) {
 
     let url = `${URL_SERVICES}/cotizacion`;
 
@@ -40,8 +41,28 @@ export class CotizacionService {
     return this.http.get(url);
   }
 
-  updateCotizacion (cotizacion: Cotizacion) {}
+  public getCotizacion (id: string, numero: number) {
+    let url = `${URL_SERVICES}/cotizacion/${id}/${numero}`;
 
-  deleteCotizacion ( cotizacion: Cotizacion ) {}
+    return this.http.get(url);
+  }
+
+  public updateCotizacion (id: string, numero: number, cotizacion: Cotizacion) {
+    const url = `${URL_SERVICES}/cotizacion/${id}/${numero}`;
+
+    return this.http.put(url, cotizacion);
+  }
+
+  public deleteCotizacion ( cotizacion: Cotizacion ) {}
+
+  public getCotizacionesById (id: string, page?: any) {
+    let url = `${URL_SERVICES}/cotizacion/${id}`;
+
+    if (page !== undefined && page !== null) {
+      url = `${url}?id=${page.id}&numero=${page.numero}`;
+    }
+
+    return this.http.get(url);
+  }
 
 }

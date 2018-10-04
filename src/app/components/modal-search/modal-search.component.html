@@ -30,7 +30,7 @@
                             <div class="form-group col col-md-4">
                                 <label for="exampleFormControlSelect2">Elegir tipo de producto</label>
                                 <select [(ngModel)]="tipo" name="tipo" (change)="selected($event.target.value)" class="form-control" id="exampleFormControlSelect2">
-                                    <option value=""></option>
+                                    <option value="" disabled>Elegir producto</option>
                                     <option *ngFor="let tipo of tipos" [value]="tipo.name">{{tipo.name}}</option>
                                 </select>
                             </div>
