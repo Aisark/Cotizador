@@ -1,8 +1,8 @@
 <!-- #region Preloader-->
-<app-preloader *ngIf="!cotizaciones"></app-preloader>
+<app-preloader *ngIf="cotizaciones.length === 0"></app-preloader>
 <!-- #endregion -->
 
-<div class="row" *ngIf="cotizaciones">
+<div class="row" *ngIf="cotizaciones.length !== 0">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
@@ -21,7 +21,11 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let cotizacion of cotizaciones">
-                                <td>{{cotizacion.id}}</td>
+                                <td>
+                                    <button [routerLink]="['/cotizaciones', cotizacion.id]" type="button" class="btn btn-inverse-secondary btn-fw">
+                                        {{cotizacion.id}}
+                                    </button>
+                                </td>
                                 <td>{{cotizacion.cliente.nombre}}</td>
                                 <td>{{cotizacion.cliente.estado}}</td>
                                 <td>
@@ -30,7 +34,9 @@
                                 <td>${{cotizacion.totalCompra}}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-primary btn-sm"> <i class="mdi mdi-minus"></i> </button>
+                                        <button type="button" [routerLink]="['/cotizador', cotizacion.id, cotizacion.numero]" class="btn btn-sm btn-primary btn-fw">
+                                            Ver Cotización
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -43,7 +49,7 @@
                 <nav aria-label="Page navigation example" *ngIf="nextDates != undefined || nextDates != null">
                     <ul class="pagination justify-content-center">
                         <li class="page-item">
-                            <a class="page-link" (click)="getCotizaciones()" tabindex="-1">Cargar más</a>
+                            <a class="page-link" (click)="get()" tabindex="-1">Cargar más</a>
                         </li>
                     </ul>
                 </nav>

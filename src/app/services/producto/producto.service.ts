@@ -7,7 +7,6 @@ import { URL_SERVICES } from '@config/config';
 // Models 
 import { Producto, Tipo } from '@models/models.index';
 
-import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -45,18 +44,6 @@ export class ProductoService {
       url = `${url}?c=false`;
     }
     return this.http.get(url);
-  }
-
-  getAllProducts() {
-    const url = `${URL_SERVICES}/productos/`;
-    return this.http.get(url)
-          .pipe(
-            map(
-              (data) => {
-                
-              }
-            )
-          );
   }
 
 }
