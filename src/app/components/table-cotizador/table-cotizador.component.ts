@@ -10,7 +10,6 @@ import {Producto} from '@models/producto';
 // Enums
 import { TipoCliente } from 'app/enums/tipo-cliente.enum';
 import { EstatusCotizacion } from 'app/enums/estatus-cotizacion.enum';
-import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 
 @Component({
   selector: 'app-table-cotizador',
@@ -28,15 +27,11 @@ export class TableCotizadorComponent implements OnInit {
   private subtotal = 0;
 
   // Variables de entrada
-  // tslint:disable-next-line:no-input-rename
-  @Input('nuevoTable') nuevo = false;
   @Input('tipo_precio') set _tipo_precio (value: TipoCliente) {
     this.tipo_precio = value;
-
-    if (this.cotizacion && this.cotizacion.lista_productos.length > 0 ) {
-      this.getTotal();
-    }
+    this.getTotal();
   }
+
   @Input('cotizacionSet') set cotizacionSet (value: Cotizacion) {
     this.cotizacion = value;
   }
@@ -46,19 +41,14 @@ export class TableCotizadorComponent implements OnInit {
   @Output('cotizacionSend') contizacion_emit: EventEmitter<Cotizacion> = new EventEmitter();
 
   constructor(
-    public _modalSearch: ModalSearchService,
-    private _cotizadorService: CotizacionService
+    public _modalSearch: ModalSearchService
   ) {
-    this._cotizadorService.emitCliente.subscribe( (cotizacion: Cotizacion) => {
-      this.cotizacion = cotizacion;
-      if (this.cotizacion.lista_productos.length > 0 ) {
-        this.lista = this.cotizacion.lista_productos;
-        this.cotizacion.lista_productos = this.lista;
-        this.getTotal();
-      } else {
-        this.cotizacion.lista_productos = this.lista;
-      }
-    });
+    this.cotizacion = {
+      id: 'usuario',
+      numero: 0,
+      lista_productos: this.lista,
+      totalCompra: 0
+    };
    }
 
   ngOnInit() {
