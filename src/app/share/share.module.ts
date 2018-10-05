@@ -6,21 +6,26 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
+import { SearchComponent } from './search/search.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   declarations: [
     SidebarComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    SearchComponent
   ],
   exports: [
     SidebarComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    SearchComponent
   ]
 })
 export class ShareModule { }

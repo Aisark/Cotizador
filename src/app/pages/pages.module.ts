@@ -12,6 +12,9 @@ import { PreloaderComponent } from '../components/preloader/preloader.component'
 import { Page404Component } from './page404/page404.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { PipesModule } from '@pipes/pipes.module';
+import { ProductosComponent } from './productos/productos.component';
+import { ShareModule } from '@share/share.module';
+import { ProductoComponent } from './productos/producto/producto.component';
 
 // Pipes
 
@@ -20,7 +23,8 @@ import { PipesModule } from '@pipes/pipes.module';
     CommonModule,
     RouterModule,
     FormsModule,
-    PipesModule
+    PipesModule,
+    ShareModule
   ],
   declarations: [
     CotizadorComponent,
@@ -29,7 +33,9 @@ import { PipesModule } from '@pipes/pipes.module';
     CotizacionesComponent,
     PreloaderComponent,
     Page404Component,
-    ClientesComponent
+    ClientesComponent,
+    ProductosComponent,
+    ProductoComponent
   ],
   exports: [
     CotizadorComponent,
