@@ -7,6 +7,8 @@ import { CotizacionesComponent } from './pages/cotizaciones/cotizaciones.compone
 import { Page404Component } from '@pages/page404/page404.component';
 import { ClienteComponent } from '@pages/clientes/cliente.component';
 import { ClientesComponent } from '@pages/clientes/clientes.component';
+import { ProductosComponent } from '@pages/productos/productos.component';
+import { ProductoComponent } from '@pages/productos/producto/producto.component';
 
 const routes: Routes = [
   { path: 'cotizaciones', component: CotizacionesComponent },
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'cotizador/:id/:numero', component: CotizadorComponent },
   { path: 'cliente/:id', component: ClienteComponent },
   { path: 'clientes', component: ClientesComponent },
+  {path: 'productos' , component: ProductosComponent},
+  {path: 'producto/:name', component: ProductoComponent},
   {path: '', redirectTo: '/clientes', pathMatch: 'full'},
   { path: '**', component: Page404Component }
 ];
