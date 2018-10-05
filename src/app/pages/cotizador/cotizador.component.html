@@ -17,14 +17,21 @@
     <!-- #endregion -->
 
     <div class="row">
-        <div class="form-group col col-md-4">
-            <label for="exampleFormControlSelect2">Tipo de Cliente</label>
-            <select [(ngModel)]="tipo_precio" name="tipo_precio" (change)="tipo_precio = +($event.target.value)" class="form-control" id="exampleFormControlSelect2">
-                <option [value]="TipoCliente.PUBLICO">Publico</option>
-                <option [value]="TipoCliente.DISTRIBUIDOR_OCASIONAL">Distribuidor Ocasional</option>
-                <option [value]="TipoCliente.DISTRIBUIDOR_PREFERENCIAL">Distribuidor Preferencial</option>
-            </select>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group col col-md-4">
+                        <label for="exampleFormControlSelect2">Tipo de Cliente</label>
+                        <select [(ngModel)]="tipo_precio" name="tipo_precio" (change)="tipo_precio = +($event.target.value)" class="form-control" id="exampleFormControlSelect2">
+                            <option [value]="TipoCliente.PUBLICO">Publico</option>
+                            <option [value]="TipoCliente.DISTRIBUIDOR_OCASIONAL">Distribuidor Ocasional</option>
+                            <option [value]="TipoCliente.DISTRIBUIDOR_PREFERENCIAL">Distribuidor Preferencial</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 
     <!-- #region Tablas-->
