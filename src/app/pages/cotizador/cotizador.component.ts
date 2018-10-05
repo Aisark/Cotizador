@@ -41,13 +41,16 @@ export class CotizadorComponent implements OnInit {
     this._acrouter.params.subscribe( params => {
 
       let id = params['id'];
-      id = (id === 'nuevo') ? id : Number(id);
+      let numero = params['numero'];
       this.nuevo = id === 'nuevo';
 
-      if (isNaN(id) && id !== 'nuevo') {
+      if (id !== 'nuevo' && isNaN(numero)) {
         this._router.navigate(['/page404']);
-      } else {
+      } else if (id === 'nuevo') {
+        this.getCliente();
         this.setCotizacion(id, 0);
+      } else if (id !== 'nuevo' && !isNaN(numero)) {
+        this.getCotizacion(id, numero);
       }
 
       
@@ -59,14 +62,17 @@ export class CotizadorComponent implements OnInit {
     this.cotizacion = {
       id: (id === 'nuevo') ? `${this.date.getDate()}-${this.date.getMonth() + 1}-${this.date.getFullYear()}` : id,
       numero: (id === 'nuevo') ? 0 : numero,
+      totalCompra: 0,
+      lista_productos: []
     };
+
+    this._cotizadorServices.emitCliente.emit(this.cotizacion);
   }
 
   ngOnInit() {
-    this.getCliente();
   }
 
-  getCliente() {
+  public getCliente() {
     this.cliente = this._cotizadorServices.cliente;
     
     if (this.cliente === undefined) { 
@@ -74,6 +80,15 @@ export class CotizadorComponent implements OnInit {
     }
   }
 
+  public getCotizacion (id: string, numero: number) {
+    this._cotizadorServices.getCotizacion(id, numero)
+      .subscribe( (res: any) => {
+        this.cotizacion = res.Item;
+        this.cliente = this.cotizacion.cliente;
+        this._cotizadorServices.emitCliente.emit(this.cotizacion);
+        this.tipo_precio = this.cotizacion.cliente.tipo_cliente;
+      });
+  }
 
   public setDatosClientes () {
     let datosCliente: DatosCliente = {
@@ -114,7 +129,11 @@ export class CotizadorComponent implements OnInit {
     })
     .then( (res: any) => {
       if (res.value) {
-        this.saveCotizacion();
+        if (this.nuevo) {
+          this.saveCotizacion();
+        } else {
+          this.updateCotizacion(this.cotizacion.id, this.cotizacion.numero);
+        }
       }
     });
   }
@@ -127,6 +146,8 @@ export class CotizadorComponent implements OnInit {
             'Guardado!',
             'La cotización se guardo exitosamente',
             'success'
+          ).then(
+            () => this._router.navigate(['/cotizaciones'])
           );
         },
         err => {
@@ -137,6 +158,32 @@ export class CotizadorComponent implements OnInit {
           );
         }
       );
+  }
+
+  public updateCotizacion (id: string, numero: number) {
+    this._cotizadorServices.updateCotizacion(id, numero, this.cotizacion)
+      .subscribe(
+        (res) => {
+          swal(
+            'Actualizado!',
+            'La cotización se a actualizado exitosamente',
+            'success'
+          ).then(
+            () => this._router.navigate(['/cotizaciones'])
+          );
+        },
+        err => {
+          swal(
+            'Error!',
+            'Ha habido algún error al actualizar la cotización',
+            'error'
+          );
+        }
+      );
+  }
+
+  test(val: any) {
+    console.log(val);
   }
 
 }
