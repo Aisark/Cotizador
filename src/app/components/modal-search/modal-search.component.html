@@ -13,7 +13,7 @@
                 <!-- #endregion -->
 
                 <!-- #region Modal del Formulario-->
-                <div class="modal-body text-center">
+                <div class="modal-body">
 
                     <!-- #region Formulario-->
                     <form ngNativeValidate #f="ngForm" class="forms-sample">
@@ -30,7 +30,7 @@
                             <div class="form-group col col-md-4">
                                 <label for="exampleFormControlSelect2">Elegir tipo de producto</label>
                                 <select [(ngModel)]="tipo" name="tipo" (change)="selected($event.target.value)" class="form-control" id="exampleFormControlSelect2">
-                                    <option value="" disabled>Elegir producto</option>
+                                    <option value=""></option>
                                     <option *ngFor="let tipo of tipos" [value]="tipo.name">{{tipo.name}}</option>
                                 </select>
                             </div>
@@ -47,11 +47,9 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>Producto</th>
-                                                        <th>Precio</th>
-                                                        <th>Acciones</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody style="max-height: 200px">
+                                                <tbody>
                                                     <tr *ngFor="let producto of addListProducts">
                                                         <td>
                                                             <div class="form-group" style="margin-bottom: 0 !important;">
@@ -63,15 +61,7 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td>{{producto.producto.name}}</td>
-                                                        <td>
-                                                            <ng-container [ngSwitch]="tipo_precio">
-                                                                <ng-container *ngSwitchCase="tipoCliente.PUBLICO">{{producto.producto.precio.publico}}</ng-container>
-                                                                <ng-container *ngSwitchCase="tipoCliente.DISTRIBUIDOR_OCASIONAL">{{producto.producto.precio.distribuidor_ocasional}}</ng-container>
-                                                                <ng-container *ngSwitchCase="tipoCliente.DISTRIBUIDOR_PREFERENCIAL">{{producto.producto.precio.distribuidor_preferencial}}</ng-container>
-                                                            </ng-container>
-                                                        </td>
-                                                        <td></td>
+                                                        <td class="producto_name">{{producto.producto.name}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

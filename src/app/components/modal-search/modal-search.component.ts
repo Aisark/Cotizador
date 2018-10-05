@@ -59,16 +59,15 @@ export class ModalSearchComponent implements OnInit {
 
     this.addListProducts = [];
 
-    this._productService.getProductsByType(tipo)
+    this._productService.getProductsByType(tipo, 'false')
       .subscribe(
         (res: any) => {
+          console.log(res);
           res.Items.forEach(item => {
-            if (item.isAviable) {
-              this.addListProducts.push({
-                isAdd: false,
-                producto: item
-              });
-            }
+            this.addListProducts.push({
+              isAdd: false,
+              producto: item
+            });
           });
         }
       );
