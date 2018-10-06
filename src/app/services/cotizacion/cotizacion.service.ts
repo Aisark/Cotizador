@@ -53,7 +53,15 @@ export class CotizacionService {
     return this.http.put(url, cotizacion);
   }
 
-  public deleteCotizacion ( cotizacion: Cotizacion ) {}
+  /**
+   * @description Borra una cotización atraves de sus clave compuesta
+   * @param cotizacion Objeto de tipo Cotización
+   */
+  public deleteCotizacion ( cotizacion: Cotizacion ) {
+    const url = `${URL_SERVICES}/cotizacion/${cotizacion.id}/${cotizacion.numero}`;
+
+    return this.http.delete(url);
+  }
 
   public getCotizacionesById (id: string, page?: any) {
     let url = `${URL_SERVICES}/cotizacion/${id}`;
