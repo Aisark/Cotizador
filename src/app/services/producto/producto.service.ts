@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 // URL
-import { URL_SERVICES } from '@config/config';
+import { URL_SERVICES, URL_PRUEBA } from '@config/config';
 
 // URL DE PRUEBAS JHZ
-
-import {URL_PRUEBA} from '@config/config';
 
 
 // Models 
