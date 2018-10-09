@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { HttpClient , HttpHeaders , HttpRequest} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 // URL
 import { URL_SERVICES, URL_PRUEBA } from '@config/config';
@@ -63,12 +63,8 @@ export class ProductoService {
   // Informacion de un solo producto
   getProductoByName(name: string, tipo: string) {
     let url = `${URL_PRUEBA}/producto/${name}`;
-    const headers = new HttpHeaders();
-    headers.set('Access-Control-Allow-Origin', '*');
-    let options = {
-      headers: headers
-    };
-    return this.http.post(url, {nombre: name, tipo: tipo})
+   
+    return this.http.post(url, {nombre: name, tipo: tipo}, this.getHeaders())
             .pipe(
               map(
                 (producto: any) => {
@@ -81,12 +77,8 @@ export class ProductoService {
 
   updateProducto(producto: any) {
     let url = `${URL_PRUEBA}/producto/${[producto.nombre]}`;
-    const headers =  new HttpHeaders();
-    headers.set('Access-Control-Allow-Origin', '*');
-    let options = {
-      headers: headers
-    };
-    return this.http.put(url, producto, options)
+    
+    return this.http.put(url, producto, this.getHeaders())
               .pipe(
                 map(
                   (updated) => updated
@@ -99,19 +91,45 @@ export class ProductoService {
 
   postProducto(producto: any) {
     let url = `${URL_PRUEBA}/producto`;
+    
+    return this.http.post(url, producto, this.getHeaders())
+          .pipe(
+            map(
+              (respuesta: any) => {
+                return respuesta;
+              }
+            )
+          );
+  }
+
+  // Delete de un producto
+
+  deleteProducto(name: string, tipo: string) {
+    let url = `${URL_PRUEBA}/producto/${[name]}`;
+    // use http request para mandar la info por el body
+    return this.http.request('delete', url, {
+      headers: this.getHeaders(),
+      body: {
+        name,
+        tipo
+      }
+    })
+    .pipe(
+      map(
+        (data) => console.log(data)
+      )
+    );
+  }
+
+  // headers
+
+  getHeaders(): any {
     const headers =  new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
     let options = {
       headers: headers
     };
-    return this.http.post(url, producto, options)
-          .pipe(
-            map(
-              (respuesta: any) => {
-                console.log(respuesta);
-              }
-            )
-          )
+    return options;
   }
 
 }
