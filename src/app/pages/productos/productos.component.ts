@@ -35,7 +35,7 @@ export class ProductosComponent implements OnInit {
 
   borrar(name: string, tipo: string) {
     swal({
-      title:'Desea borrar?',
+      title: 'Desea borrar?',
       text: 'Esta a punto de borrar ' + name,
       showCancelButton: true
     }).then(
