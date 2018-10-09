@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { SearchComponent } from '@share/search/search.component';
+import {LoadingComponent} from '@share/loading/loading.component';
 
 @NgModule({
   imports: [
@@ -18,13 +19,15 @@ import { SearchComponent } from '@share/search/search.component';
     SidebarComponent,
     FooterComponent,
     NavbarComponent,
-    SearchComponent
+    SearchComponent,
+    LoadingComponent
   ],
   exports: [
     SidebarComponent,
     FooterComponent,
     NavbarComponent,
-    SearchComponent
+    SearchComponent,
+    LoadingComponent
   ]
 })
 export class ShareModule { }

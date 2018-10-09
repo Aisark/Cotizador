@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Producto } from '@models/producto';
 import { Router } from '@angular/router';
 import { ProductoService } from '@services/producto/producto.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-productos',
@@ -10,8 +11,7 @@ import { ProductoService } from '@services/producto/producto.service';
 })
 export class ProductosComponent implements OnInit {
 
-  productos: Producto [] = [{
-    tipo: 'jabon', name: 'hola sd'}];
+  productos: Producto [] = [];
   valorBusqueda: string;
 
   constructor(private router: Router, private _productosServices: ProductoService) { }
@@ -29,8 +29,22 @@ export class ProductosComponent implements OnInit {
 
   }
 
-  editar(name: string) {
-    this.router.navigate(['/producto', name]);
+  editar(name: string, tipo: string) {
+    this.router.navigate(['/producto', name], {queryParams: {tipo: tipo}});
+  }
+
+  borrar(name: string, tipo: string) {
+    swal({
+      title:'Desea borrar?',
+      text: 'Esta a punto de borrar ' + name,
+      showCancelButton: true
+    }).then(
+      (borrado) => {
+        this._productosServices.deleteProducto(name,  tipo)
+        .subscribe();
+      }
+    );
+    
   }
 
 }
