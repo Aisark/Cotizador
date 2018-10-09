@@ -10,8 +10,7 @@ import { ProductoService } from '@services/producto/producto.service';
 })
 export class ProductosComponent implements OnInit {
 
-  productos: Producto [] = [{
-    tipo: 'jabon', name: 'hola sd'}];
+  productos: Producto [] = [];
   valorBusqueda: string;
 
   constructor(private router: Router, private _productosServices: ProductoService) { }
@@ -29,8 +28,8 @@ export class ProductosComponent implements OnInit {
 
   }
 
-  editar(name: string) {
-    this.router.navigate(['/producto', name]);
+  editar(name: string, tipo: string) {
+    this.router.navigate(['/producto', name], {queryParams: {tipo: tipo}});
   }
 
 }

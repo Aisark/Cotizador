@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 // URL
 import { URL_SERVICES, URL_PRUEBA } from '@config/config';
@@ -61,16 +61,57 @@ export class ProductoService {
             );
   }
   // Informacion de un solo producto
-  getProductoByName(name: string) {
+  getProductoByName(name: string, tipo: string) {
     let url = `${URL_PRUEBA}/producto/${name}`;
-    return this.http.get(url)
+    const headers = new HttpHeaders();
+    headers.set('Access-Control-Allow-Origin', '*');
+    let options = {
+      headers: headers
+    };
+    return this.http.post(url, {nombre: name, tipo: tipo})
             .pipe(
               map(
                 (producto: any) => {
-                  return producto;
+                  return producto.Items[0];
                 }
               )
             );
+  }
+  // Update de un producto
+
+  updateProducto(producto: any) {
+    let url = `${URL_PRUEBA}/producto/${[producto.nombre]}`;
+    const headers =  new HttpHeaders();
+    headers.set('Access-Control-Allow-Origin', '*');
+    let options = {
+      headers: headers
+    };
+    return this.http.put(url, producto, options)
+              .pipe(
+                map(
+                  (updated) => updated
+                )
+              );
+    
+  }
+
+  // Post de un producto
+
+  postProducto(producto: any) {
+    let url = `${URL_PRUEBA}/producto`;
+    const headers =  new HttpHeaders();
+    headers.set('Access-Control-Allow-Origin', '*');
+    let options = {
+      headers: headers
+    };
+    return this.http.post(url, producto, options)
+          .pipe(
+            map(
+              (respuesta: any) => {
+                console.log(respuesta);
+              }
+            )
+          )
   }
 
 }
