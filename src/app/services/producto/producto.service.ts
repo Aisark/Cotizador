@@ -51,7 +51,7 @@ export class ProductoService {
   // ARRAY DE TODOS LOS PRODUCTOS 
   getAllProductos() {
     let url = `${URL_PRUEBA}/productos`;
-    return this.http.get(url)
+    return this.http.get(url,this.getHeaders())
             .pipe(
               map(
                 (productos: any) => {
@@ -67,9 +67,7 @@ export class ProductoService {
     return this.http.post(url, {nombre: name, tipo: tipo}, this.getHeaders())
             .pipe(
               map(
-                (producto: any) => {
-                  return producto.Items[0];
-                }
+                (respuesta: any) => respuesta.Items[0] 
               )
             );
   }

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validator, Validators, FormArray} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-
+import {Location} from '@angular/common';
 // Services
 import { ProductoService } from '@services/producto/producto.service';
 
 // Models
 import { Tipo, Producto } from '@models/models.index';
+
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-producto',
@@ -16,7 +18,7 @@ import { Tipo, Producto } from '@models/models.index';
 export class ProductoComponent implements OnInit {
 
   forma: FormGroup;
-  producto: Producto;
+  producto: any;
   loading = false;
   nuevo = false;
   mensajeBoton: string;
@@ -25,10 +27,11 @@ export class ProductoComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute, 
     private _productosService: ProductoService,
-    private _router: Router
+    private _router: Router,
+    private _location: Location
     ) {
 
-    this.initForm();
+    
     
     this._productosService.getTipoProductos().then(
       (tipos) => {
@@ -38,18 +41,24 @@ export class ProductoComponent implements OnInit {
 
     this._activatedRoute.params
       .subscribe( (params) => {
-        let tipo = params['tipo'];
         let name = params['name'];
 
-        this.nuevo = name === 'nuevo';
+        let tipo = params['tipo'];
+        
+        this.nuevo = tipo === 'nuevo' ? true : false ;
         
         this.mensajeBoton = (this.nuevo) ? 'Guardar' : 'Actualizar';
 
-        this._productosService.getProductoByName(name, tipo)
+        if (this.nuevo) {
+
+          this.initForm();
+
+        } else {
+          this._productosService.getProductoByName(name, tipo)
           .subscribe(
             (producto: any) => {
               this.producto = producto;
-
+              this.initForm();
               this.forma.setValue({
                 Nombre: producto.name,
                 Tipo: producto.tipo,
@@ -62,6 +71,10 @@ export class ProductoComponent implements OnInit {
               });
             }
           );
+          
+        }
+
+        
       });
   }
   
@@ -78,6 +91,7 @@ export class ProductoComponent implements OnInit {
       'Descripcion': new FormControl('', [Validators.required]),
       'Tags': new FormControl('', Validators.required)
         });
+        this.producto = {};
    }
 
   accion(): void {
@@ -111,7 +125,7 @@ export class ProductoComponent implements OnInit {
 
   productoNuevo(): void {
     this.loading = true;
-  let producto = {
+    let producto = {
     name: this.forma.value['Nombre'],
     tipo: this.forma.value['Tipo'],
     peso: this.forma.value['Peso'],
@@ -129,12 +143,29 @@ export class ProductoComponent implements OnInit {
   this._productosService.postProducto(producto).subscribe(
     (ok) => {
       this.loading = false;
-      this._router.navigate(['/productos']);
     }
   );
   }
 
+  borrar(): void {
+    const name = this.forma.value['Nombre'];
+    const tipo = this.forma.value['Tipo'];
+    swal({
+      title: 'Desea borrar?',
+      text: 'Esta a punto de borrar ' + name,
+      showCancelButton: true
+    }).then(
+      (borrado) => {
+        this._productosService.deleteProducto(name,  tipo)
+        .subscribe();
+      }
+    );
+    
+  }
 
+  public volver () {
+    this._location.back();
+  }
 
   ngOnInit() {
   }
