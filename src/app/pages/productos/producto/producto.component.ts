@@ -16,7 +16,7 @@ import { Tipo, Producto } from '@models/models.index';
 export class ProductoComponent implements OnInit {
 
   forma: FormGroup;
-  producto: Producto;
+  producto: any = {};
   loading = false;
   nuevo = false;
   mensajeBoton: string;
@@ -45,7 +45,8 @@ export class ProductoComponent implements OnInit {
         
         this.mensajeBoton = (this.nuevo) ? 'Guardar' : 'Actualizar';
 
-        this._productosService.getProductoByName(name, tipo)
+        if ( this.nuevo) {
+          this._productosService.getProductoByName(name, tipo)
           .subscribe(
             (producto: any) => {
               this.producto = producto;
@@ -62,6 +63,8 @@ export class ProductoComponent implements OnInit {
               });
             }
           );
+        }
+        
       });
   }
   
@@ -81,7 +84,7 @@ export class ProductoComponent implements OnInit {
    }
 
   accion(): void {
-  this.loading = true;
+    this.loading = true;
     if ( this.nuevo ) {
       this.productoNuevo();
     } else {
@@ -104,27 +107,27 @@ export class ProductoComponent implements OnInit {
     tag: this.forma.value['Tags']
   };
   this._productosService.updateProducto(producto)
-        .subscribe(
-            (response) => this.loading = false
-        );
+    .subscribe(
+        (response) => this.loading = false
+    );
   } 
 
   productoNuevo(): void {
     this.loading = true;
-  let producto = {
-    name: this.forma.value['Nombre'],
-    tipo: this.forma.value['Tipo'],
-    peso: this.forma.value['Peso'],
-    precio: {
-      distribuidor_ocasional: this.forma.value['PrecioDistribuidor'] ,
-      distribuidor_preferencial: this.forma.value['PrecioPreferencial'],
-      publico: this.forma.value['Precio']
-    },
-    descripcion: this.forma.value['Descripcion'],
-    tag: this.forma.value['Tags'],
-    unidad_peso: 'g',
-    vendor: 'Jabones La Istmeña Brava'
-  };
+    let producto = {
+      name: this.forma.value['Nombre'],
+      tipo: this.forma.value['Tipo'],
+      peso: this.forma.value['Peso'],
+      precio: {
+        distribuidor_ocasional: this.forma.value['PrecioDistribuidor'] ,
+        distribuidor_preferencial: this.forma.value['PrecioPreferencial'],
+        publico: this.forma.value['Precio']
+      },
+      descripcion: this.forma.value['Descripcion'],
+      tag: this.forma.value['Tags'],
+      unidad_peso: 'g',
+      vendor: 'Jabones La Istmeña Brava'
+    };
 
   this._productosService.postProducto(producto).subscribe(
     (ok) => {

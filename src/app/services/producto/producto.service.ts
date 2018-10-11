@@ -73,8 +73,8 @@ export class ProductoService {
               )
             );
   }
+  
   // Update de un producto
-
   updateProducto(producto: any) {
     let url = `${URL_PRUEBA}/producto/${[producto.nombre]}`;
     
