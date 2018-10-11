@@ -82,7 +82,7 @@ export class ProductoComponent implements OnInit {
 
    public initForm () {
     this.forma = new FormGroup({
-      'Tipo': new FormControl('', [Validators.required, Validators.minLength(3)]),
+      'Tipo': new FormControl({disabled: true}, [Validators.required, Validators.minLength(3)]),
       'Nombre': new FormControl('', [Validators.required, Validators.minLength(3)]),
       'Peso': new FormControl('', [Validators.required]),
       'Precio': new FormControl('', [Validators.required]),
@@ -92,6 +92,11 @@ export class ProductoComponent implements OnInit {
       'Tags': new FormControl('', Validators.required)
         });
         this.producto = {};
+        if (!this.nuevo) {
+          this.forma.controls['Tipo'].disable();
+          this.forma.controls['Nombre'].disable();
+
+        }
    }
 
   accion(): void {
@@ -106,8 +111,8 @@ export class ProductoComponent implements OnInit {
 
   actualizar(): void {
   let producto = {
-    nombre: this.forma.value['Nombre'],
-    tipo: this.forma.value['Tipo'],
+    nombre: this.forma.getRawValue()['Nombre'],
+    tipo: this.forma.getRawValue()['Tipo'],
     peso: this.forma.value['Peso'],
     precio: {
       distribuidor_ocasional: this.forma.value['PrecioDistribuidor'] ,
@@ -117,6 +122,7 @@ export class ProductoComponent implements OnInit {
     descripcion: this.forma.value['Descripcion'],
     tag: this.forma.value['Tags']
   };
+  console.log(this.forma.getRawValue());
   this._productosService.updateProducto(producto)
         .subscribe(
             (response) => this.loading = false
