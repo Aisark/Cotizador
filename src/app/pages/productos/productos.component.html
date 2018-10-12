@@ -29,8 +29,8 @@
                         <td>{{producto.name}}</td>
                         <td>{{producto.tipo}}</td>
                         <td>
-                            <!-- CAMBIAR i POR INDEX DEL ELEMENTO  -->
-                            <button [routerLink]="['/producto', producto.tipo, producto.name]" class="btn btn-primary">
+                            
+                            <button (click)="editar(producto.name, producto.tipo)" class="btn btn-primary">
                               Editar
                             </button>
                         </td>

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validator, Validators, FormArray} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-
+import {Location} from '@angular/common';
 // Services
 import { ProductoService } from '@services/producto/producto.service';
 
 // Models
 import { Tipo, Producto } from '@models/models.index';
+
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-producto',
@@ -16,7 +18,9 @@ import { Tipo, Producto } from '@models/models.index';
 export class ProductoComponent implements OnInit {
 
   forma: FormGroup;
-  producto: any = {};
+
+  producto: any;
+  
   loading = false;
   nuevo = false;
   mensajeBoton: string;
@@ -25,10 +29,11 @@ export class ProductoComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute, 
     private _productosService: ProductoService,
-    private _router: Router
+    private _router: Router,
+    private _location: Location
     ) {
 
-    this.initForm();
+    
     
     this._productosService.getTipoProductos().then(
       (tipos) => {
@@ -38,19 +43,24 @@ export class ProductoComponent implements OnInit {
 
     this._activatedRoute.params
       .subscribe( (params) => {
-        let tipo = params['tipo'];
         let name = params['name'];
 
-        this.nuevo = name === 'nuevo';
+        let tipo = params['tipo'];
+        
+        this.nuevo = tipo === 'nuevo' ? true : false ;
         
         this.mensajeBoton = (this.nuevo) ? 'Guardar' : 'Actualizar';
 
-        if ( this.nuevo) {
+        if (this.nuevo) {
+
+          this.initForm();
+
+        } else {
           this._productosService.getProductoByName(name, tipo)
           .subscribe(
             (producto: any) => {
               this.producto = producto;
-
+              this.initForm();
               this.forma.setValue({
                 Nombre: producto.name,
                 Tipo: producto.tipo,
@@ -63,6 +73,7 @@ export class ProductoComponent implements OnInit {
               });
             }
           );
+          
         }
         
       });
@@ -72,7 +83,7 @@ export class ProductoComponent implements OnInit {
 
    public initForm () {
     this.forma = new FormGroup({
-      'Tipo': new FormControl('', [Validators.required, Validators.minLength(3)]),
+      'Tipo': new FormControl({disabled: true}, [Validators.required, Validators.minLength(3)]),
       'Nombre': new FormControl('', [Validators.required, Validators.minLength(3)]),
       'Peso': new FormControl('', [Validators.required]),
       'Precio': new FormControl('', [Validators.required]),
@@ -81,6 +92,12 @@ export class ProductoComponent implements OnInit {
       'Descripcion': new FormControl('', [Validators.required]),
       'Tags': new FormControl('', Validators.required)
         });
+        this.producto = {};
+        if (!this.nuevo) {
+          this.forma.controls['Tipo'].disable();
+          this.forma.controls['Nombre'].disable();
+
+        }
    }
 
   accion(): void {
@@ -95,8 +112,8 @@ export class ProductoComponent implements OnInit {
 
   actualizar(): void {
   let producto = {
-    nombre: this.forma.value['Nombre'],
-    tipo: this.forma.value['Tipo'],
+    nombre: this.forma.getRawValue()['Nombre'],
+    tipo: this.forma.getRawValue()['Tipo'],
     peso: this.forma.value['Peso'],
     precio: {
       distribuidor_ocasional: this.forma.value['PrecioDistribuidor'] ,
@@ -106,6 +123,7 @@ export class ProductoComponent implements OnInit {
     descripcion: this.forma.value['Descripcion'],
     tag: this.forma.value['Tags']
   };
+  console.log(this.forma.getRawValue());
   this._productosService.updateProducto(producto)
     .subscribe(
         (response) => this.loading = false
@@ -115,29 +133,46 @@ export class ProductoComponent implements OnInit {
   productoNuevo(): void {
     this.loading = true;
     let producto = {
-      name: this.forma.value['Nombre'],
-      tipo: this.forma.value['Tipo'],
-      peso: this.forma.value['Peso'],
-      precio: {
-        distribuidor_ocasional: this.forma.value['PrecioDistribuidor'] ,
-        distribuidor_preferencial: this.forma.value['PrecioPreferencial'],
-        publico: this.forma.value['Precio']
-      },
-      descripcion: this.forma.value['Descripcion'],
-      tag: this.forma.value['Tags'],
-      unidad_peso: 'g',
-      vendor: 'Jabones La Istmeña Brava'
-    };
+    name: this.forma.value['Nombre'],
+    tipo: this.forma.value['Tipo'],
+    peso: this.forma.value['Peso'],
+    precio: {
+      distribuidor_ocasional: this.forma.value['PrecioDistribuidor'] ,
+      distribuidor_preferencial: this.forma.value['PrecioPreferencial'],
+      publico: this.forma.value['Precio']
+    },
+    descripcion: this.forma.value['Descripcion'],
+    tag: this.forma.value['Tags'],
+    unidad_peso: 'g',
+    vendor: 'Jabones La Istmeña Brava'
+  };
 
   this._productosService.postProducto(producto).subscribe(
     (ok) => {
       this.loading = false;
-      this._router.navigate(['/productos']);
     }
   );
   }
 
+  borrar(): void {
+    const name = this.forma.value['Nombre'];
+    const tipo = this.forma.value['Tipo'];
+    swal({
+      title: 'Desea borrar?',
+      text: 'Esta a punto de borrar ' + name,
+      showCancelButton: true
+    }).then(
+      (borrado) => {
+        this._productosService.deleteProducto(name,  tipo)
+        .subscribe();
+      }
+    );
+    
+  }
 
+  public volver () {
+    this._location.back();
+  }
 
   ngOnInit() {
   }

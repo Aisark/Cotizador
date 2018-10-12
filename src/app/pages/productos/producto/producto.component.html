@@ -1,6 +1,7 @@
 <app-preloader *ngIf="!producto || loading"></app-preloader>
 <div *ngIf="producto && !loading" class="producto">
     <h1 class="title">{{producto.name}}</h1>
+    <button   (click)="volver()" class="btn btn-primary volver">Regresar</button>
     <form [formGroup]="forma" (ngSubmit)="accion()">
         <div class="form-group">
             <label>Tipo</label>
@@ -38,6 +39,9 @@
         </div>
         <button class="btn btn-primary center text-center">
           {{mensajeBoton}}
+        </button>
+        <button (click)="borrar()" type="button" style="margin-left: 15px" class="btn btn-danger center text-center">
+          Eliminar
         </button>
     </form>
 </div>

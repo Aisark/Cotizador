@@ -30,21 +30,9 @@ export class ProductosComponent implements OnInit {
   }
 
   editar(name: string, tipo: string) {
-    this.router.navigate(['/producto', name], {queryParams: {tipo: tipo}});
+    this.router.navigate(['/producto', tipo, name], {queryParams: {tipo: tipo}});
   }
 
-  borrar(name: string, tipo: string) {
-    swal({
-      title: 'Desea borrar?',
-      text: 'Esta a punto de borrar ' + name,
-      showCancelButton: true
-    }).then(
-      (borrado) => {
-        this._productosServices.deleteProducto(name,  tipo)
-        .subscribe();
-      }
-    );
-    
-  }
+  
 
 }
