@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 // Services
 import { TipoProductoService } from '@services/tipo-producto/tipo-producto.service';
 import { CotizacionService } from '@services/cotizacion/cotizacion.service';
+import { PdfGeneratorService } from '@services/pdf-generator/pdf-generator.service';
 
 // Models
 import { DatosCliente, Cliente, Cotizacion } from '@models/models.index';
@@ -36,7 +37,8 @@ export class CotizadorComponent implements OnInit {
   constructor(
     private _router: Router,
     private _acrouter: ActivatedRoute,
-    private _cotizadorServices: CotizacionService
+    private _cotizadorServices: CotizacionService,
+    private _pdfGenerator: PdfGeneratorService
   ) {
     this._acrouter.params.subscribe( params => {
 
@@ -160,6 +162,7 @@ export class CotizadorComponent implements OnInit {
       );
   }
 
+
   public updateCotizacion (id: string, numero: number) {
     this._cotizadorServices.updateCotizacion(id, numero, this.cotizacion)
       .subscribe(
@@ -182,8 +185,10 @@ export class CotizadorComponent implements OnInit {
       );
   }
 
-  test(val: any) {
-    console.log(val);
+  public printDocument () {
+    const htmlDoc = document.getElementById('pageToPrint');    
+
+    this._pdfGenerator.print(<HTMLElement>htmlDoc);
   }
 
 }

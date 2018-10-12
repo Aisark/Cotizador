@@ -18,7 +18,9 @@ import swal from 'sweetalert2';
 export class ProductoComponent implements OnInit {
 
   forma: FormGroup;
+
   producto: any;
+  
   loading = false;
   nuevo = false;
   mensajeBoton: string;
@@ -73,7 +75,6 @@ export class ProductoComponent implements OnInit {
           );
           
         }
-
         
       });
   }
@@ -100,7 +101,7 @@ export class ProductoComponent implements OnInit {
    }
 
   accion(): void {
-  this.loading = true;
+    this.loading = true;
     if ( this.nuevo ) {
       this.productoNuevo();
     } else {
@@ -124,9 +125,9 @@ export class ProductoComponent implements OnInit {
   };
   console.log(this.forma.getRawValue());
   this._productosService.updateProducto(producto)
-        .subscribe(
-            (response) => this.loading = false
-        );
+    .subscribe(
+        (response) => this.loading = false
+    );
   } 
 
   productoNuevo(): void {
