@@ -2,25 +2,27 @@
     <table class="table table-shopping">
 
         <!-- #region Cabecera de la tabla-->
-        <thead class="">
+        <thead [class.thead-print]="isPrintable">
 
             <th>#</th>
             <th>Producto</th>
             <th>Cantidad</th>
             <th>Precio</th>
             <th>Importe</th>
-            <th class="text-right">Acciones</th>
+            <th *ngIf="!isPrintable">
+                Acciones
+            </th>
 
         </thead>
         <!-- #endregion -->
 
         <!-- #region Cuerpo de la Tabla-->
         <tbody>
-            <tr *ngFor="let item of lista; let i=index">
+            <tr *ngFor="let item of lista; let i=index" [class.tr-print]="isPrintable">
                 <td>{{i+1}}</td>
                 <td class="producto_name">{{item.producto.name}}</td>
                 <td class="td-input-number">
-                    <div class="row">
+                    <div class="row" *ngIf="!isPrintable">
                         <div class="col col-sm-6">
                             <input #inputCantidad (keyup)="change(item, $event)" class="form-control" [value]="item.cantidad" type="number" min="1" name="cantidad" id="cantidad">
                         </div>
@@ -32,22 +34,19 @@
                         </div>
                     </div>
 
+
+                    <div *ngIf="isPrintable">
+                        {{item.cantidad}} x
+                    </div>
+
                 </td>
                 <td>
-                    <ng-container [ngSwitch]="tipo_precio">
-                        <ng-container *ngSwitchCase="TipoCliente.PUBLICO">${{item.producto.precio.publico}}</ng-container>
-                        <ng-container *ngSwitchCase="TipoCliente.DISTRIBUIDOR_OCASIONAL">${{item.producto.precio.distribuidor_ocasional}}</ng-container>
-                        <ng-container *ngSwitchCase="TipoCliente.DISTRIBUIDOR_PREFERENCIAL">${{item.producto.precio.distribuidor_preferencial}}</ng-container>
-                    </ng-container>
+                    {{item | getTypePrecio: tipo_precio}}
                 </td>
                 <td>
-                    <ng-container [ngSwitch]="tipo_precio">
-                        <ng-container *ngSwitchCase="TipoCliente.PUBLICO">${{item.cantidad * item.producto.precio.publico}}</ng-container>
-                        <ng-container *ngSwitchCase="TipoCliente.DISTRIBUIDOR_OCASIONAL">${{item.cantidad * item.producto.precio.distribuidor_ocasional}}</ng-container>
-                        <ng-container *ngSwitchCase="TipoCliente.DISTRIBUIDOR_PREFERENCIAL">${{item.cantidad * item.producto.precio.distribuidor_preferencial}}</ng-container>
-                    </ng-container>
+                    {{item | getTypePrecio: tipo_precio: true}}
                 </td>
-                <td class="text-right">
+                <td class="text-right" *ngIf="!isPrintable">
                     <button (click)="removeItem(item)" type="button" data-placement="left" title="Remove item" class="btn btn-sm btn-danger">
                             <i class="mdi mdi-close"></i>
                     </button>
@@ -55,7 +54,7 @@
             </tr>
 
             <!-- #region Subtotal-->
-            <tr>
+            <tr [class.tr-print]="isPrintable">
                 <td class="td-buttom-5"></td>
                 <td class="td-buttom-5"></td>
                 <td class="td-buttom-5"></td>
@@ -66,7 +65,7 @@
             <!-- #endregion -->
 
             <!-- #region Envío-->
-            <tr>
+            <tr [class.tr-print]="isPrintable">
                 <td class="td-buttom-5 td-top-5"></td>
                 <td class="td-buttom-5 td-top-5"></td>
                 <td class="td-buttom-5 td-top-5"></td>
@@ -83,7 +82,7 @@
 
 
             <!-- #region Celda para el Total de Compra-->
-            <tr>
+            <tr [class.tr-print]="isPrintable">
                 <td class=" td-buttom-5 td-top-5"></td>
                 <td class=" td-buttom-5 td-top-5"></td>
                 <td class=" td-buttom-5 td-top-5"></td>
@@ -97,13 +96,13 @@
     </table>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="!isPrintable">
     <div class="col-md-4 offset-md-8">
         <button (click)="showModal()" class="btn btn-success btn-block"><i class="mdi mdi-plus"></i> Agregar Producto</button>
     </div>
 </div>
 
-<div class="row" *ngIf="lista.length > 0">
+<div class="row" *ngIf="lista.length > 0 && !isPrintable">
     <div class="col-md-4 offset-md-8" style="margin-top: 20px;">
         <button (click)="saveCotizacion()" *ngIf="nuevo" class="btn btn-primary btn-block">Enviar Cotización <i class="mdi mdi-send"></i> </button>
         <button (click)="saveCotizacion()" *ngIf="!nuevo" class="btn btn-primary btn-block">Actualizar Cotización </button>

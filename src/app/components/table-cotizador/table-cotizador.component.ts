@@ -40,6 +40,7 @@ export class TableCotizadorComponent implements OnInit {
   @Input('cotizacionSet') set cotizacionSet (value: Cotizacion) {
     this.cotizacion = value;
   }
+  @Input() isPrintable = false;
 
   // Variables de salida
   // tslint:disable-next-line:no-output-rename

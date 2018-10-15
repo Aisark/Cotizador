@@ -35,7 +35,6 @@ export class ModalSearchComponent implements OnInit {
 
   public showTipoCliente(value: any) {
     this.tipo_precio = +value + 1;
-    console.log(this.tipo_precio);
   }
 
   public hiddeModal () {

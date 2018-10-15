@@ -15,11 +15,13 @@ import { TipoCliente } from 'app/enums/tipo-cliente.enum';
 
 // Otras
 import swal from 'sweetalert2';
+import { RemoveSpacePipe } from '@pipes/remove-space.pipe';
 
 
 @Component({
   selector: 'app-cotizador',
-  templateUrl: './cotizador.component.html'
+  templateUrl: './cotizador.component.html',
+  providers: [ RemoveSpacePipe ]
 })
 export class CotizadorComponent implements OnInit {
 
@@ -31,6 +33,7 @@ export class CotizadorComponent implements OnInit {
   private tipo_precio = this.TipoCliente.PUBLICO;
   private cotizacion: Cotizacion;
   private datosClientes: DatosCliente;
+  private isPrinting = false;
 
   // @ViewChild('localInput') localInput: ElementRef;
 
@@ -57,8 +60,9 @@ export class CotizadorComponent implements OnInit {
 
       
     });
-   }
 
+    this._pdfGenerator.printReady.subscribe( (printReady) => this.isPrinting = printReady);
+   }
 
   public setCotizacion (id: string, numero: number) {
     this.cotizacion = {
@@ -186,9 +190,9 @@ export class CotizadorComponent implements OnInit {
   }
 
   public printDocument () {
-    const htmlDoc = document.getElementById('pageToPrint');    
-
-    this._pdfGenerator.print(<HTMLElement>htmlDoc);
+    this.isPrinting = true;
+    const print = document.getElementById('printArea');
+    setTimeout(() => this._pdfGenerator.printCotizacion(print), 3000);
   }
 
 }
