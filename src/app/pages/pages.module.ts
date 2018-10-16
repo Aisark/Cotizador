@@ -15,6 +15,8 @@ import { PipesModule } from '@pipes/pipes.module';
 import { ShareModule } from '@share/share.module';
 import { ProductosComponent } from '@pages/productos/productos.component';
 import { ProductoComponent } from '@pages/productos/producto/producto.component';
+import { PagesRoutes } from './pages.routes';
+import { LoginComponent } from '../Pages/login/login.component';
 
 // Pipes
 
@@ -25,7 +27,9 @@ import { ProductoComponent } from '@pages/productos/producto/producto.component'
     FormsModule,
     PipesModule,
     ShareModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PagesRoutes,
+    RouterModule
   ],
   declarations: [
     CotizadorComponent,
@@ -37,6 +41,7 @@ import { ProductoComponent } from '@pages/productos/producto/producto.component'
     ClientesComponent,
     ProductosComponent,
     ProductoComponent
+    
   ],
   exports: [
     CotizadorComponent,
