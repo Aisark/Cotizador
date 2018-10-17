@@ -67,7 +67,7 @@ export class ProductoComponent implements OnInit {
                 Peso: producto.peso,
                 Precio: producto.precio.publico,
                 PrecioDistribuidor: producto.precio.distribuidor_ocasional ,
-                PrecioPreferencial: producto.precio.distribuidor_preferencial,
+                PrecioPreferencial: producto.precio.distribuidor_ocasional,
                 Descripcion: producto.descripcion,
                 Tags: producto.tag
               });
@@ -123,7 +123,6 @@ export class ProductoComponent implements OnInit {
     descripcion: this.forma.value['Descripcion'],
     tag: this.forma.value['Tags']
   };
-  console.log(this.forma.getRawValue());
   this._productosService.updateProducto(producto)
     .subscribe(
         (response) => this.loading = false
