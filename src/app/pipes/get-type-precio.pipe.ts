@@ -11,16 +11,18 @@ import { TipoCliente } from 'app/enums/tipo-cliente.enum';
 })
 export class GetTypePrecioPipe implements PipeTransform {
 
-  transform(item: ItemLista, tipo: TipoCliente): number {
+  transform(item: ItemLista, tipo: TipoCliente, t?: boolean): any {
 
     let producto = item.producto;
 
-    let precio = (tipo === TipoCliente.PUBLICO) ? producto.precio.publico : 
-                 (tipo === TipoCliente.DISTRIBUIDOR_OCASIONAL) ? producto.precio.distribuidor_ocasional :
-                 producto.precio.distribuidor_preferencial;
-    
-    
+    let precio: any;
 
+    precio = (tipo === TipoCliente.PUBLICO) ? producto.precio.publico : producto.precio.distribuidor_ocasional;
+    
+    if (t) {
+      precio = (tipo === TipoCliente.PUBLICO) ? 'Publico' : 'Distribuidor Ocasional';
+    }
+    
     return precio;
   }
 

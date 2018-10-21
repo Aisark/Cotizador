@@ -7,7 +7,10 @@ import { URL_SERVICES } from '@config/config';
 // Modelos
 import { Cotizacion, Cliente } from '@models/models.index';
 import { TipoCliente } from '@enums/tipo-cliente.enum';
+import { Router } from '@angular/router';
 
+// Node
+import swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,8 @@ export class CotizacionService {
   public emitCliente = new EventEmitter<Cotizacion>();
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private _router: Router
   ) { }
 
   /**
@@ -34,6 +38,38 @@ export class CotizacionService {
     const url = `${URL_SERVICES}/cotizacion/new`;
 
     return this.http.post(url, cotizacion);
+  }
+
+  public newCotizacion (cliente: Cliente) {
+    const date = new Date;
+
+    const cotizacion: Cotizacion = {
+      id: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`,
+      numero:  0,
+      totalCompra: 0,
+      lista_productos: [],
+      status: 0
+    };
+
+    this.createCotizacion(cotizacion, cliente)
+      .subscribe(
+        (res: any) => {
+          swal(
+            'Guardado!',
+            'La cotización se creo exitosamente',
+            'success'
+          ).then(
+            () => this._router.navigate(['/cotizador', cotizacion.id, res.numero])
+          );
+        },
+        err => {
+          swal(
+            'Error!',
+            'Ha habido algún error al guardar la cotización',
+            'error'
+          );
+        }
+      );
   }
 
   public getCotizaciones (page?: any) {

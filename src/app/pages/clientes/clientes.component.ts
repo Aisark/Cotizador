@@ -42,35 +42,6 @@ export class ClientesComponent implements OnInit {
   }
 
   createCotizacion (cliente: Cliente) {
-
-    const date = new Date;
-
-    const cotizacion: Cotizacion = {
-      id: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`,
-      numero:  0,
-      totalCompra: 0,
-      lista_productos: [],
-      status: 0
-    };
-
-    this._cotizacionServices.createCotizacion(cotizacion, cliente)
-      .subscribe(
-        (res: any) => {
-          swal(
-            'Guardado!',
-            'La cotización se guardo exitosamente',
-            'success'
-          ).then(
-            () => this._router.navigate(['/cotizador', cotizacion.id, res.numero])
-          );
-        },
-        err => {
-          swal(
-            'Error!',
-            'Ha habido algún error al guardar la cotización',
-            'error'
-          );
-        }
-      );
+    this._cotizacionServices.newCotizacion(cliente);
   }
 }

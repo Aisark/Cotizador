@@ -20,7 +20,6 @@ import { ItemCotizacion } from 'app/interfaces/item-cotizacion';
 })
 export class TableCotizadorComponent implements OnInit {
   // tslint:disable:no-input-rename no-output-rename
-  private inputCantidad: ElementRef;
   private TipoCliente = TipoCliente;
   private subtotal = 0;
   private updateList = false;
@@ -44,7 +43,7 @@ export class TableCotizadorComponent implements OnInit {
   @Input('cotizacion') set _cotizacion(value: Cotizacion) {
     if (value) {
       this.cotizacion = value;
-      this.addProductos();
+      this.recalculate();
     }
   }
 
@@ -109,14 +108,15 @@ export class TableCotizadorComponent implements OnInit {
       item.cantidad = +input.value;
       this.updateList = true;
       const index = this.cotizacion.lista_productos.indexOf(item);
-      const body = {
-        lista: this.cotizacion.lista_productos,
-        tipo: this.tipo_precio,
-        costo_envio: 150,
-        index
-      };
-      this.calculate(body);
+      
+      this.changeList(index);
     }
+  }
+
+  public removeItem (item: ItemCotizacion) {
+    const index = this.cotizacion.lista_productos.indexOf(item) + 1;
+
+    this.changeList(index * -1);
   }
 
   /**
@@ -133,6 +133,15 @@ export class TableCotizadorComponent implements OnInit {
     this._modalSearch.showModal();
   }
 
+  public recalculate() {
+    const body = {
+      lista: this.cotizacion.lista_productos,
+      tipo: this.cotizacion.cliente.tipo_cliente,
+      costo_envio: 150,
+    };
+    this.calculate(body);
+  }
+
   public calculate(body: any) {
     if (this.cotizacion.lista_productos.length > 0) {
       this.updateList = true;
@@ -146,5 +155,15 @@ export class TableCotizadorComponent implements OnInit {
         });
     }
     
+  }
+
+  public changeList (index: number) {
+    const body = {
+      lista: this.cotizacion.lista_productos,
+      tipo: this.tipo_precio,
+      costo_envio: 150,
+      index
+    };
+    this.calculate(body);
   }
 }
