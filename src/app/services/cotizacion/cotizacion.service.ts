@@ -1,11 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // URL para AWS API Gateway
 import { URL_SERVICES } from '@config/config';
 
 // Modelos
 import { Cotizacion, Cliente } from '@models/models.index';
+import { TipoCliente } from '@enums/tipo-cliente.enum';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ import { Cotizacion, Cliente } from '@models/models.index';
 })
 export class CotizacionService {
 
-  public cliente: Cliente;
+  private cliente: Cliente;
   public emitCliente = new EventEmitter<Cotizacion>();
 
   constructor(
@@ -24,7 +25,12 @@ export class CotizacionService {
    * @description Guarda un Objeto Cotizacion en la BD de AWS
    * @param cotizacion Objeto de tipo Cotizacion, que sera guardada en la BD de AWS
    */
-  public createCotizacion (cotizacion: Cotizacion) {
+  public createCotizacion (cotizacion: Cotizacion, cliente?: Cliente) {
+
+    this.cliente = cliente;
+
+    cotizacion.cliente = this.cliente;
+
     const url = `${URL_SERVICES}/cotizacion/new`;
 
     return this.http.post(url, cotizacion);
@@ -43,12 +49,11 @@ export class CotizacionService {
 
   public getCotizacion (id: string, numero: number) {
     let url = `${URL_SERVICES}/cotizacion/${id}/${numero}`;
-
     return this.http.get(url);
   }
 
-  public updateCotizacion (id: string, numero: number, cotizacion: Cotizacion) {
-    const url = `${URL_SERVICES}/cotizacion/${id}/${numero}`;
+  public updateCotizacion (cotizacion: Cotizacion) {
+    const url = `${URL_SERVICES}/cotizacion/${cotizacion.id}/${cotizacion.numero}`;
 
     return this.http.put(url, cotizacion);
   }
@@ -71,6 +76,18 @@ export class CotizacionService {
     }
 
     return this.http.get(url);
+  }
+
+  public updateListCotizacion (tipo: TipoCliente, index: number, cotizacion: Cotizacion) {
+    const url = `${URL_SERVICES}/cotizacion/${cotizacion.id}/${cotizacion.numero}?tipo=${tipo}&index=${index}`;
+
+    return this.http.put(url, cotizacion);
+  }
+
+  public calculeTotalCotizacion (body: any) {
+    const url = `${URL_SERVICES}/cotizacion/calculate`;
+
+    return this.http.post(url, body);
   }
 
 }

@@ -13,9 +13,11 @@ import { DatosCliente, Cliente, Cotizacion } from '@models/models.index';
 // Enums
 import { TipoCliente } from 'app/enums/tipo-cliente.enum';
 
+// Pipes
+import { RemoveSpacePipe } from '@pipes/remove-space.pipe';
+
 // Otras
 import swal from 'sweetalert2';
-import { RemoveSpacePipe } from '@pipes/remove-space.pipe';
 
 
 @Component({
@@ -47,53 +49,24 @@ export class CotizadorComponent implements OnInit {
 
       let id = params['id'];
       let numero = params['numero'];
-      this.nuevo = id === 'nuevo';
 
-      if (id !== 'nuevo' && isNaN(numero)) {
-        this._router.navigate(['/page404']);
-      } else if (id === 'nuevo') {
-        this.getCliente();
-        this.setCotizacion(id, 0);
-      } else if (id !== 'nuevo' && !isNaN(numero)) {
-        this.getCotizacion(id, numero);
-      }
-
-      
+      this.getCotizacion(id, numero);      
     });
-
-    this._pdfGenerator.printReady.subscribe( (printReady) => this.isPrinting = printReady);
    }
-
-  public setCotizacion (id: string, numero: number) {
-    this.cotizacion = {
-      id: (id === 'nuevo') ? `${this.date.getDate()}-${this.date.getMonth() + 1}-${this.date.getFullYear()}` : id,
-      numero: (id === 'nuevo') ? 0 : numero,
-      totalCompra: 0,
-      lista_productos: []
-    };
-
-    this._cotizadorServices.emitCliente.emit(this.cotizacion);
-  }
 
   ngOnInit() {
   }
 
-  public getCliente() {
-    this.cliente = this._cotizadorServices.cliente;
-    
-    if (this.cliente === undefined) { 
-      this._router.navigate(['/clientes']); 
-    }
-  }
-
   public getCotizacion (id: string, numero: number) {
     this._cotizadorServices.getCotizacion(id, numero)
-      .subscribe( (res: any) => {
+      .subscribe( 
+        (res: any) => {
         this.cotizacion = res.Item;
         this.cliente = this.cotizacion.cliente;
-        this._cotizadorServices.emitCliente.emit(this.cotizacion);
-        this.tipo_precio = this.cotizacion.cliente.tipo_cliente;
-      });
+        this.tipo_precio = (this.cliente.tipo_cliente) ? this.cliente.tipo_cliente : this.tipo_precio;
+        },
+        (err) => console.log(err)
+      );
   }
 
   public setDatosClientes () {
@@ -168,7 +141,7 @@ export class CotizadorComponent implements OnInit {
 
 
   public updateCotizacion (id: string, numero: number) {
-    this._cotizadorServices.updateCotizacion(id, numero, this.cotizacion)
+    this._cotizadorServices.updateCotizacion(this.cotizacion)
       .subscribe(
         (res) => {
           swal(
@@ -188,11 +161,4 @@ export class CotizadorComponent implements OnInit {
         }
       );
   }
-
-  public printDocument () {
-    this.isPrinting = true;
-    const print = document.getElementById('printArea');
-    setTimeout(() => this._pdfGenerator.printCotizacion(print), 3000);
-  }
-
 }

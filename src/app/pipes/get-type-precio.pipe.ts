@@ -11,7 +11,7 @@ import { TipoCliente } from 'app/enums/tipo-cliente.enum';
 })
 export class GetTypePrecioPipe implements PipeTransform {
 
-  transform(item: ItemLista, tipo: TipoCliente, total?: boolean): number {
+  transform(item: ItemLista, tipo: TipoCliente): number {
 
     let producto = item.producto;
 
@@ -21,7 +21,7 @@ export class GetTypePrecioPipe implements PipeTransform {
     
     
 
-    return precio = (!total) ? precio : (precio * item.cantidad);
+    return precio;
   }
 
 }

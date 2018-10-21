@@ -61,7 +61,6 @@ export class ModalSearchComponent implements OnInit {
     this._productService.getProductsByType(tipo, 'false')
       .subscribe(
         (res: any) => {
-          console.log(res);
           res.Items.forEach(item => {
             this.addListProducts.push({
               isAdd: false,

@@ -6,7 +6,10 @@ import { ClienteService } from '@services/cliente/cliente.service';
 import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 
 // Models
-import { Cliente } from '@models/models.index';
+import { Cliente, Cotizacion } from '@models/models.index';
+
+// Otras
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-clientes',
@@ -21,7 +24,7 @@ export class ClientesComponent implements OnInit {
 
   constructor(
     private _clienteServices: ClienteService,
-    private _cotizacionesServices: CotizacionService,
+    private _cotizacionServices: CotizacionService,
     private _router: Router
   ) { }
 
@@ -39,8 +42,35 @@ export class ClientesComponent implements OnInit {
   }
 
   createCotizacion (cliente: Cliente) {
-    this._cotizacionesServices.cliente = cliente;
 
-    this._router.navigate(['/cotizador', 'nuevo']);
+    const date = new Date;
+
+    const cotizacion: Cotizacion = {
+      id: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`,
+      numero:  0,
+      totalCompra: 0,
+      lista_productos: [],
+      status: 0
+    };
+
+    this._cotizacionServices.createCotizacion(cotizacion, cliente)
+      .subscribe(
+        (res: any) => {
+          swal(
+            'Guardado!',
+            'La cotización se guardo exitosamente',
+            'success'
+          ).then(
+            () => this._router.navigate(['/cotizador', cotizacion.id, res.numero])
+          );
+        },
+        err => {
+          swal(
+            'Error!',
+            'Ha habido algún error al guardar la cotización',
+            'error'
+          );
+        }
+      );
   }
 }
