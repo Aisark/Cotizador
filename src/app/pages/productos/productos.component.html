@@ -1,7 +1,7 @@
-<app-preloader *ngIf="productos.length === 0"></app-preloader>
+<app-preloader *ngIf="!productos"></app-preloader>
 
-<div class="busqueda" *ngIf="productos.length > 0">
-    <app-search (changeSearch)="cambioBusqueda($event)"> </app-search>
+<div class="busqueda" *ngIf="productos">
+    <app-search type="nombre" (changeSearch)="cambioBusqueda($event)"> </app-search>
     <div *ngIf="valorBusqueda" class="searchBar">
         <h3> {{valorBusqueda}} </h3>
     </div>
@@ -10,10 +10,10 @@
     <h3>Publicar producto</h3>
     <button [routerLink]="['/producto','nuevo']" class="btn btn-primary">Crear</button>
 </div>
-<div class="row">
+<div *ngIf="productos" class="row">
     <div class="col-md-12">
         <div class="productos">
-            <h3>Productos</h3>
+            <h3 *ngIf="!valorBusqueda">Productos  pagina:{{page}}</h3>
             <table class="table customT">
                 <thead>
                     <tr class="bg-primary">
@@ -25,7 +25,7 @@
                 </thead>
                 <tbody>
                     <tr class="table-info" *ngFor="let producto of productos; let i = index">
-                        <td>{{i+1}}</td>
+                        <td>{{getIndex(i)}}</td>
                         <td>{{producto.name}}</td>
                         <td>{{producto.tipo}}</td>
                         <td>
@@ -39,4 +39,8 @@
             </table>
         </div>
     </div>
+    <div class="botonesP">
+            <button class="btn btn-primary" (click)="anterior()">Anterior</button>
+            <button class="btn btn-primary" (click)="siguiente()">Siguiente</button>
+        </div>    
 </div>

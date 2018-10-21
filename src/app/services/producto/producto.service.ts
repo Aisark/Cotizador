@@ -18,12 +18,23 @@ import { Producto, Tipo } from '@models/models.index';
 export class ProductoService {
 
   private tipos: Tipo[];
+  private previous: any[] = [];
+  private lastEvaluatedKey : any;
+  private aux;
+  public page: number = 1;
+  public tPages: number;
  
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    this.getAllProductos().subscribe(
+      (data)=> {
+        this.tPages = Math.floor(data.length / 10) + 1;
+      }
+    )
+   }
 
-  getTipoProductos (): Promise<Array<Tipo>> {
+  public getTipoProductos (): Promise<Array<Tipo>> {
 
     const url = `${URL_SERVICES}/productos/tipos`;
 
@@ -43,7 +54,7 @@ export class ProductoService {
     
   }
 
-  getProductsByType (tipo: string, comple?: string) {
+  public getProductsByType (tipo: string, comple?: string) {
     let url = `${URL_SERVICES}/productos/${tipo}`;
     if (comple) {
       url = `${url}?c=false`;
@@ -51,19 +62,89 @@ export class ProductoService {
     return this.http.get(url);
   }
   // ARRAY DE TODOS LOS PRODUCTOS 
-  getAllProductos() {
+  public getAllProductos(page?: number) {
     let url = `${URL_PRUEBA}/productos`;
-    return this.http.get(url,this.getHeaders())
+      return this.http.get(`${url}`,this.getHeaders())
             .pipe(
               map(
-                (productos: any) => {
-                  return productos.Items;
-                }
+                (productos: any) => productos.Items
               )
             );
   }
+
+
+  public getProductosPaginados(siguiente: boolean) {
+
+    let url = `${URL_PRUEBA}/productos`;
+      //Si es la primera vez que se ejecuta la tabla
+    if (!this.lastEvaluatedKey) {
+      return this.http.post(`${url}/pages`,{},this.getHeaders())
+      .pipe(
+        map(
+          (productos: any) => {
+            this.lastEvaluatedKey = productos.LastEvaluatedKey; //se guarda el lastevaluateKey en el atributo de esta clase para ser usado posteriormente
+            return productos.Items
+          }
+        )
+      );
+    } else {
+
+        if (siguiente) { // Si se dió click al botón de siguiente entonces
+
+           
+
+           
+            return this.http.post(`${url}/1`,{lastEvaluatedKey : this.lastEvaluatedKey},this.getHeaders())
+            .pipe(
+                map(
+                 (productos: any) => {    
+                   this.aux = this.lastEvaluatedKey; //se guarda en un auxiliar la ultima llave de la consulta previa
+ 
+                   this.lastEvaluatedKey = productos.LastEvaluatedKey; // se cambia la llave a la de la nueva consulta
+     
+                   if(!this.previous[this.page-1]) {
+                    this.previous.push(this.aux); // giardamos el auxiliar en un arreglo
+                   }
+                   
+ 
+                 
+ 
+                   return productos.Items
+                 }
+             )
+           );
+           }
+
+         
+         else { // En caso de que sea un retroceso de pagina ... --------------------------------------------------------
+          if(this.page === 2) { // En caso de que sea la segunda pagina unicamente regresamos los primeros 10 objetos
+            return this.http.post(`${url}/pages`,{},this.getHeaders())
+              .pipe(
+                map(
+                  (productos: any) => {
+                    this.lastEvaluatedKey = productos.LastEvaluatedKey;
+                    return productos.Items
+                  }
+                )
+              );
+          }
+          // De lo contrario esta en una pagina entre la segunda y la ultima por lo que se regresa a la llave de dos consultas previas
+         
+          return this.http.post(`${url}/pages`,{lastEvaluatedKey : this.previous[this.page - 3]},this.getHeaders())
+          .pipe(
+            map(
+              (productos: any) => {
+               this.lastEvaluatedKey = productos.LastEvaluatedKey;
+                return productos.Items
+              }
+            )
+          );
+        }
+     
+    }
+  }
   // Informacion de un solo producto
-  getProductoByName(name: string, tipo: string) {
+  public getProductoByName(name: string, tipo: string) {
     let url = `${URL_PRUEBA}/producto/${name}`;
    
     return this.http.post(url, {nombre: name, tipo: tipo}, this.getHeaders())
@@ -75,7 +156,7 @@ export class ProductoService {
   }
   
   // Update de un producto
-  updateProducto(producto: any) {
+  public updateProducto(producto: any) {
  
     let url = `${URL_PRUEBA}/producto/${[producto.nombre]}`;
     
@@ -90,7 +171,7 @@ export class ProductoService {
 
   // Post de un producto
 
-  postProducto(producto: any) {
+  public postProducto(producto: any) {
     let url = `${URL_PRUEBA}/producto`;
     
     return this.http.post(url, producto, this.getHeaders())
@@ -103,7 +184,7 @@ export class ProductoService {
 
   // Delete de un producto
 
-  deleteProducto(name: string, tipo: string) {
+  public deleteProducto(name: string, tipo: string) {
     let url = `${URL_PRUEBA}/producto/${[name]}`;
     // use http request para mandar la info por el body
     return this.http.request('delete', url, {
@@ -120,9 +201,56 @@ export class ProductoService {
     );
   }
 
+  // Busqueda producto
+  public searchProducto(name: string) {
+    let url = `${URL_PRUEBA}/productos/search`;
+    // use http request para mandar la info por el body
+    return this.http.post(url, {nombre: name}, this.getHeaders())
+    .pipe(
+      map(
+        (respuesta: any) => respuesta.Items
+      )
+    );
+  }
+
+
+  public siguiente(){
+    if (this.page + 1 > this.tPages ) {
+      this.page = 1;
+    } else {
+      this.page += 1;
+    }
+  }
+
+  public anterior(){
+    if (this.page - 1 <= 0 ) {
+      this.page = 1;
+    } else {
+      this.page -= 1;
+    }
+
+  }
+
+  public getItemIndex(): number[]{
+    let aux:number[] = [];
+    if (this.page === 1){
+      for(let i = 1; i <= 10; i++) {
+        aux.push(i);
+      }
+      return aux;
+    }
+
+    let x = (this.page * 10) - 9;
+
+    for(let i = x ; i <= x + 10 ; i++) {
+      aux.push(i);
+    }
+    return aux;
+  }
+
   // headers
 
-  getHeaders(): any {
+  private getHeaders(): any {
     const headers =  new HttpHeaders();
     headers.set('Access-Control-Allow-Origin', '*');
     let options = {
