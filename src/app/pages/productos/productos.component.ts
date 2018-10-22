@@ -15,6 +15,7 @@ export class ProductosComponent implements OnInit {
   valorBusqueda: string;
   page = 1;
   indexes:number[];
+  busqueda: boolean;
 
 
   constructor(private router: Router, private _productosServices: ProductoService) { 
@@ -25,29 +26,34 @@ export class ProductosComponent implements OnInit {
       (productos: any) => {
         this.productos = productos;
         this.indexes = this._productosServices.getItemIndex();
+        this.busqueda = false;
       }
     );
     
   }
 
   public cambioBusqueda(busqueda: string) {
+    
     this.valorBusqueda = busqueda;
+
     if (this.valorBusqueda.length < 1) {
       this.valorBusqueda = null;
-      this._productosServices.getProductosPaginados(true).subscribe(
+      this._productosServices.getProductosPaginados(true , true).subscribe(
         (productos: any) => {
           this.productos = productos;
           this.indexes = this._productosServices.getItemIndex();
+          this.busqueda = false;
         }
       );
     }
-      this._productosServices.searchProducto(busqueda)
-          .subscribe(
-            (data) => {
-              this.productos = data;
-            }
-          )
-
+    
+    this.busqueda = true;
+    this._productosServices.searchProducto(busqueda)
+         .subscribe(
+           (data) => {
+             this.productos = data;
+           }
+         );
   }
 
   public editar(name: string, tipo: string) {

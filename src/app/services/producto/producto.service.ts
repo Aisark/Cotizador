@@ -73,11 +73,11 @@ export class ProductoService {
   }
 
 
-  public getProductosPaginados(siguiente: boolean) {
+  public getProductosPaginados(siguiente: boolean, first?:true) {
 
     let url = `${URL_PRUEBA}/productos`;
       //Si es la primera vez que se ejecuta la tabla
-    if (!this.lastEvaluatedKey) {
+    if (!this.lastEvaluatedKey || first) {
       return this.http.post(`${url}/pages`,{},this.getHeaders())
       .pipe(
         map(
@@ -208,7 +208,7 @@ export class ProductoService {
     return this.http.post(url, {nombre: name}, this.getHeaders())
     .pipe(
       map(
-        (respuesta: any) => respuesta.Items
+        (respuesta: any) => respuesta
       )
     );
   }

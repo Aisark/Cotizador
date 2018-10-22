@@ -1,4 +1,4 @@
-<app-preloader *ngIf="!productos"></app-preloader>
+<app-preloader *ngIf="productos.length<1"></app-preloader>
 
 <div class="busqueda" *ngIf="productos">
     <app-search type="nombre" (changeSearch)="cambioBusqueda($event)"> </app-search>
@@ -13,7 +13,7 @@
 <div *ngIf="productos" class="row">
     <div class="col-md-12">
         <div class="productos">
-            <h3 *ngIf="!valorBusqueda">Productos  pagina:{{page}}</h3>
+            <h3 *ngIf="!valorBusqueda">Página :{{page}}</h3>
             <table class="table customT">
                 <thead>
                     <tr class="bg-primary">
@@ -25,7 +25,8 @@
                 </thead>
                 <tbody>
                     <tr class="table-info" *ngFor="let producto of productos; let i = index">
-                        <td>{{getIndex(i)}}</td>
+                        <td *ngIf="!busqueda">{{getIndex(i)}}</td>
+                        <td *ngIf="busqueda">{{i + 1}}</td>
                         <td>{{producto.name}}</td>
                         <td>{{producto.tipo}}</td>
                         <td>
@@ -39,7 +40,7 @@
             </table>
         </div>
     </div>
-    <div class="botonesP">
+    <div *ngIf="!busqueda" class="botonesP">
             <button class="btn btn-primary" (click)="anterior()">Anterior</button>
             <button class="btn btn-primary" (click)="siguiente()">Siguiente</button>
         </div>    
