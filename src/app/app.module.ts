@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { PagesComponent } from '@pages/pages.component';
 import {APP } from './app.routes';
 import { PagesRoutes } from '@pages/pages.routes';
-import { LoginComponent } from '@pages/login/login.component';
+import { LoginComponent } from './Pages/login/login.component';
 
 @NgModule({
   declarations: [

@@ -1,3 +1,20 @@
-<div class="content">
-    <router-outlet style="height: 100%;"></router-outlet>
+<!-- #endregion -->
+<app-navbar></app-navbar>
+<div class="container-fluid page-body-wrapper">
+        
+
+    <!-- #region Sidebar -->
+    <app-sidebar></app-sidebar>
+    <!-- #endregion -->
+
+    <div class="main-panel">
+
+        <div >
+            <router-outlet ></router-outlet>
+        </div>
+
+        <!-- #region Footer-->
+        <app-footer></app-footer>
+        <!-- #endregion -->
+    </div>
 </div>
