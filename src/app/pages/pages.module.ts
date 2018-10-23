@@ -16,7 +16,6 @@ import { ShareModule } from '@share/share.module';
 import { ProductosComponent } from '@pages/productos/productos.component';
 import { ProductoComponent } from '@pages/productos/producto/producto.component';
 import { PagesRoutes } from './pages.routes';
-import { LoginComponent } from '../Pages/login/login.component';
 
 // Pipes
 
