@@ -38,12 +38,13 @@ export class TableCotizadorComponent implements OnInit {
       };
       this.calculate(body);
     }
-    
+
   }
   @Input('cotizacion') set _cotizacion(value: Cotizacion) {
     if (value) {
       this.cotizacion = value;
       this.recalculate();
+      this.addProductos();
     }
   }
 
@@ -66,7 +67,7 @@ export class TableCotizadorComponent implements OnInit {
    */
   public addProductos() {
     let verify = false;
-    
+
     const lista = this.cotizacion.lista_productos;
     this._modalSearch.newProductos.subscribe(
       (productos: Array<Producto>) => {
@@ -96,7 +97,7 @@ export class TableCotizadorComponent implements OnInit {
         };
 
         this.calculate(body);
-        
+
       }
     );
   }
@@ -108,7 +109,7 @@ export class TableCotizadorComponent implements OnInit {
       item.cantidad = +input.value;
       this.updateList = true;
       const index = this.cotizacion.lista_productos.indexOf(item);
-      
+
       this.changeList(index);
     }
   }
@@ -154,7 +155,7 @@ export class TableCotizadorComponent implements OnInit {
           this.updateList = false;
         });
     }
-    
+
   }
 
   public changeList (index: number) {
