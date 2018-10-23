@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders , HttpRequest} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-// swal 
+// swal
 import swal from 'sweetalert2';
 // URL
 import { URL_SERVICES, URL_PRUEBA } from '@config/config';
@@ -9,7 +9,7 @@ import { URL_SERVICES, URL_PRUEBA } from '@config/config';
 // URL DE PRUEBAS JHZ
 
 
-// Models 
+// Models
 import { Producto, Tipo } from '@models/models.index';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class ProductoService {
   private aux;
   public page: number = 1;
   public tPages: number;
- 
+
   constructor(
     private http: HttpClient
   ) {
@@ -43,7 +43,7 @@ export class ProductoService {
       .subscribe(
         (res: any) => {
           this.tipos = res;
-          resolve(this.tipos);  
+          resolve(this.tipos);
         },
 
         (err) => {
@@ -51,7 +51,7 @@ export class ProductoService {
         }
       );
     });
-    
+
   }
 
   public getProductsByType (tipo: string, comple?: string) {
@@ -61,7 +61,7 @@ export class ProductoService {
     }
     return this.http.get(url);
   }
-  // ARRAY DE TODOS LOS PRODUCTOS 
+  // ARRAY DE TODOS LOS PRODUCTOS
   public getAllProductos(page?: number) {
     let url = `${URL_PRUEBA}/productos`;
       return this.http.get(`${url}`,this.getHeaders())
@@ -91,31 +91,31 @@ export class ProductoService {
 
         if (siguiente) { // Si se dió click al botón de siguiente entonces
 
-           
 
-           
+
+
             return this.http.post(`${url}/1`,{lastEvaluatedKey : this.lastEvaluatedKey},this.getHeaders())
             .pipe(
                 map(
-                 (productos: any) => {    
+                 (productos: any) => {
                    this.aux = this.lastEvaluatedKey; //se guarda en un auxiliar la ultima llave de la consulta previa
- 
+
                    this.lastEvaluatedKey = productos.LastEvaluatedKey; // se cambia la llave a la de la nueva consulta
-     
+
                    if(!this.previous[this.page-1]) {
                     this.previous.push(this.aux); // giardamos el auxiliar en un arreglo
                    }
-                   
- 
-                 
- 
+
+
+
+
                    return productos.Items
                  }
              )
            );
            }
 
-         
+
          else { // En caso de que sea un retroceso de pagina ... --------------------------------------------------------
           if(this.page === 2) { // En caso de que sea la segunda pagina unicamente regresamos los primeros 10 objetos
             return this.http.post(`${url}/pages`,{},this.getHeaders())
@@ -129,7 +129,7 @@ export class ProductoService {
               );
           }
           // De lo contrario esta en una pagina entre la segunda y la ultima por lo que se regresa a la llave de dos consultas previas
-         
+
           return this.http.post(`${url}/pages`,{lastEvaluatedKey : this.previous[this.page - 3]},this.getHeaders())
           .pipe(
             map(
@@ -140,13 +140,13 @@ export class ProductoService {
             )
           );
         }
-     
+
     }
   }
   // Informacion de un solo producto
   public getProductoByName(name: string, tipo: string) {
     let url = `${URL_PRUEBA}/producto/${name}`;
-   
+
     return this.http.post(url, {nombre: name, tipo: tipo}, this.getHeaders())
             .pipe(
               map(
@@ -154,26 +154,26 @@ export class ProductoService {
               )
             );
   }
-  
+
   // Update de un producto
   public updateProducto(producto: any) {
- 
+
     let url = `${URL_PRUEBA}/producto/${[producto.nombre]}`;
-    
+
     return this.http.put(url, producto)
               .pipe(
                 map(
                   (updated) => swal('Exito', 'Actualizacion completada', 'success')
                 )
               );
-    
+
   }
 
   // Post de un producto
 
   public postProducto(producto: any) {
     let url = `${URL_PRUEBA}/producto`;
-    
+
     return this.http.post(url, producto, this.getHeaders())
           .pipe(
             map(
