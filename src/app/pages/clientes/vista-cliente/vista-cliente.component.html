@@ -1,11 +1,12 @@
 <app-preloader *ngIf="loading"></app-preloader>
 
 <div class="formulario">
+    <button (click)="volver()" class="btn btn-primary volver">Regresar</button>
   <form  *ngIf="!loading" (ngSubmit)="editar()">
 
     <div class="form-group">
       <label for="exampleInputEmail1">Nombre</label>
-      <input  [(ngModel)]="cliente.nombre" name="nombre" type="email" class="form-control">
+      <input  [(ngModel)]="cliente.nombre" name="nombre" disabled  class="form-control">
     </div>
 
     <div class="form-group">
@@ -15,7 +16,7 @@
 
     <div class="form-group">
       <label for="exampleInputEmail1">estado</label>
-      <input  [(ngModel)]="cliente.estado" name="estado" class="form-control">
+      <input  [(ngModel)]="cliente.estado" name="estado" disabled class="form-control">
     </div>
 
     <div class="form-group">

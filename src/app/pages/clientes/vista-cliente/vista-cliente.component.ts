@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import { ClienteService } from '@services/cliente/cliente.service';
 import {Cliente} from '../../../interfaces/Clientes';
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-vista-cliente',
   templateUrl: './vista-cliente.component.html',
@@ -14,7 +15,7 @@ export class VistaClienteComponent implements OnInit {
   opciones = [true, false];
   
   
-  constructor(private _activatedRoute: ActivatedRoute, public _clienteService: ClienteService) {
+  constructor(private _activatedRoute: ActivatedRoute, public _clienteService: ClienteService , private _location: Location) {
     this._activatedRoute.params.subscribe(
       (params) => {
           let correo = params['id'];
@@ -33,8 +34,12 @@ export class VistaClienteComponent implements OnInit {
   }
 
   public editar() {
-    console.log(this.cliente.local);
-    console.log(this.cliente);
+    this._clienteService.updateCliente(this.cliente.correo, this.cliente)
+        .subscribe();
+  }
+
+  public volver() {
+    this._location.back();
   }
 
 }
