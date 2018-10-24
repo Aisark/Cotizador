@@ -29,7 +29,6 @@ export class ProductoComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute, 
     private _productosService: ProductoService,
-    private _router: Router,
     private _location: Location
     ) {
 

@@ -9,6 +9,10 @@ import { Cliente } from '@models/models.index';
 
 import {map} from 'rxjs/operators';
 
+// swal
+
+import swal from 'sweetalert2';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +25,7 @@ export class ClienteService {
   ) { }
 
 
-  createCliente (cliente: Cliente) {
+  public createCliente (cliente: Cliente) {
     this.cliente = cliente;
 
     const url = `${URL_SERVICES}/clientes/new`;
@@ -29,13 +33,11 @@ export class ClienteService {
     return this.http.post(url, cliente);
   }
 
-  getListClientes (page?: any) {
+  public getListClientes (page?: any) {
     let url = `${URL_SERVICES}/clientes`;
 
     url = (!page) ? url : `${url}?correo=${page.correo}&estado=${page.esado}`;
-
-    console.log(url);
-
+    
     return this.http.get(url);
   }
 
@@ -46,6 +48,16 @@ export class ClienteService {
         .pipe(
           map(
             (datos: any) => datos.Items[0]
+          )
+        );
+  }
+
+  public updateCliente(correo: any , cliente) {
+    let url = `${URL_PRUEBA}/clientes/${correo}`;
+    return this.http.put(url, cliente)
+        .pipe(
+          map(
+            updated => swal('Exito', 'Actualizacion completada', 'success')
           )
         );
   }
