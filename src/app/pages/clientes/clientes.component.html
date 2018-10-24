@@ -36,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let cliente of clientes">
+                            <tr class="pointer"(click)="editar(cliente.correo)" *ngFor="let cliente of clientes">
                                 <td>{{cliente.nombre}}</td>
                                 <td>{{cliente.correo}}</td>
                                 <td>{{cliente.estado}}</td>
