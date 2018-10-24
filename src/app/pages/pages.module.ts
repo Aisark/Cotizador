@@ -16,6 +16,7 @@ import { ShareModule } from '@share/share.module';
 import { ProductosComponent } from '@pages/productos/productos.component';
 import { ProductoComponent } from '@pages/productos/producto/producto.component';
 import { PagesRoutes } from './pages.routes';
+import { VistaClienteComponent } from './clientes/vista-cliente/vista-cliente.component';
 
 // Pipes
 
@@ -28,7 +29,8 @@ import { PagesRoutes } from './pages.routes';
     ShareModule,
     ReactiveFormsModule,
     PagesRoutes,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   declarations: [
     CotizadorComponent,
@@ -39,7 +41,8 @@ import { PagesRoutes } from './pages.routes';
     Page404Component,
     ClientesComponent,
     ProductosComponent,
-    ProductoComponent
+    ProductoComponent,
+    VistaClienteComponent
     
   ],
   exports: [

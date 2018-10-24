@@ -1,0 +1,43 @@
+<app-preloader *ngIf="loading"></app-preloader>
+
+<div class="formulario">
+  <form  *ngIf="!loading" (ngSubmit)="editar()">
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">Nombre</label>
+      <input  [(ngModel)]="cliente.nombre" name="nombre" type="email" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Correo</label>
+      <input  [(ngModel)]="cliente.correo" name="correo" type="email" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">estado</label>
+      <input  [(ngModel)]="cliente.estado" name="estado" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">local</label>
+        <select class="custom-select" name="local" [(ngModel)]="cliente.local">
+          <option value={{opciones[0]}}>Si</option>
+          <option value={{opciones[1]}}>No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+          <label for="exampleInputEmail1">telefono</label>
+          <input  [(ngModel)]="cliente.telefono" name="telefono" type="number" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">tipo</label>
+            <input  [(ngModel)]="cliente.tipo_cliente" name="tipo" type="number" class="form-control">
+          </div>
+
+      <button type="submit" class="btn btn-danger" style="margin:15px;">
+        Guardar
+      </button>
+  </form>
+</div>

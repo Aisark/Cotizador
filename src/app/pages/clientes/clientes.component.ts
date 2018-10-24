@@ -44,4 +44,8 @@ export class ClientesComponent implements OnInit {
   createCotizacion (cliente: Cliente) {
     this._cotizacionServices.newCotizacion(cliente);
   }
+
+  public editar(correo) {
+    this._router.navigate(['cliente', correo]);
+  }
 }
