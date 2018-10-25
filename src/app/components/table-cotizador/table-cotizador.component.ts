@@ -50,6 +50,7 @@ export class TableCotizadorComponent implements OnInit {
 
   // Variables de salida
   @Output('cotizacionSend') cotizacion_emit: EventEmitter<Cotizacion> = new EventEmitter();
+  @Output('subtotal') _subtotal: EventEmitter<number> = new EventEmitter();
 
   constructor(
     public _modalSearch: ModalSearchService,
@@ -153,6 +154,7 @@ export class TableCotizadorComponent implements OnInit {
           this.subtotal = res.subtotal;
           this.cotizacion.totalCompra = res.total_compra;
           this.updateList = false;
+          this._subtotal.emit(this.subtotal);
         });
     }
 

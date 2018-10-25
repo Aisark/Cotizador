@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 // Services
 import { CotizacionService } from '@services/cotizacion/cotizacion.service';
+import { PdfGeneratorService } from '@services/pdf-generator/pdf-generator.service';
 
 // Models
 import { Cliente, Cotizacion } from '@models/models.index';
@@ -25,18 +26,19 @@ export class CotizadorComponent implements OnInit {
   private TipoCliente = TipoCliente;
   private tipo_precio = this.TipoCliente.PUBLICO;
   private cotizacion: Cotizacion;
+  private subtotal: number;
 
   constructor(
-    private _router: Router,
     private _acrouter: ActivatedRoute,
-    private _cotizadorServices: CotizacionService
+    private _cotizadorServices: CotizacionService,
+    private _pdfGenerator: PdfGeneratorService
   ) {
     this._acrouter.params.subscribe( params => {
 
       let id = params['id'];
       let numero = params['numero'];
 
-      this.getCotizacion(id, numero);      
+      this.getCotizacion(id, numero);
     });
    }
 
@@ -45,7 +47,7 @@ export class CotizadorComponent implements OnInit {
 
   public getCotizacion (id: string, numero: number) {
     this._cotizadorServices.getCotizacion(id, numero)
-      .subscribe( 
+      .subscribe(
         (res: any) => {
         this.cotizacion = res.Item;
         this.cliente = this.cotizacion.cliente;
@@ -94,4 +96,17 @@ export class CotizadorComponent implements OnInit {
       );
   }
 
+  public printPdf () {
+    const body = {
+      c: this.cotizacion,
+      envio: 150,
+      subtotal: this.subtotal,
+      enviogratis: false,
+      publico: false,
+      tipo_cliente: 'Publico'
+    };
+
+    this._pdfGenerator.printPdf(body);
+      // .subscribe( res => console.log(res));
+  }
 }
