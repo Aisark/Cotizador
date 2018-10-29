@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col col-md-4">
                             <div class="btn-group">
-                                <button class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
+                                <button (click)="printDocument()"  class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <app-table-cotizador [nuevoTable]="nuevo" [cotizacion]="cotizacion" (cotizacionSend)="sendCotizacion($event)" [tipo_precio]="tipo_precio"></app-table-cotizador>
+                    <app-table-cotizador [cotizacion]="cotizacion" (subtotal)="subtotal = $event" (cotizacionSend)="sendCotizacion($event)" [tipo_precio]="tipo_precio"></app-table-cotizador>
                 </div>
             </div>
         </div>
