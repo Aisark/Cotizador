@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 // Services
 import { CotizacionService } from '@services/cotizacion/cotizacion.service';
+import { GetTypeClientePipe } from '@pipes/get-type-cliente.pipe';
 import { PdfGeneratorService } from '@services/pdf-generator/pdf-generator.service';
 
 // Models
@@ -18,15 +19,16 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-cotizador',
   templateUrl: './cotizador.component.html',
+  providers: [GetTypeClientePipe]
 })
 export class CotizadorComponent implements OnInit {
-  private local = false;
-  private cliente: Cliente;
-  private date = new Date;
-  private TipoCliente = TipoCliente;
-  private tipo_precio = this.TipoCliente.PUBLICO;
-  private cotizacion: Cotizacion;
-  private subtotal: number;
+  local = false;
+  cliente: Cliente;
+  date = new Date;
+  TipoCliente = TipoCliente;
+  tipo_precio = this.TipoCliente.PUBLICO;
+  cotizacion: Cotizacion;
+  subtotal: number;
 
   constructor(
     private _acrouter: ActivatedRoute,
@@ -96,17 +98,42 @@ export class CotizadorComponent implements OnInit {
       );
   }
 
-  public printPdf () {
+  public printDocument() {
+    const getCliente = new GetTypeClientePipe();
+    const envio_gratis = (this.cotizacion.envio_gratis) ? 'Envío gratis en compras mayores a $1,000' :
+      (this.cotizacion.cliente.local) ? 'No aplica en entregas locales' : '$150';
     const body = {
       c: this.cotizacion,
-      envio: 150,
-      subtotal: this.subtotal,
-      enviogratis: false,
-      publico: false,
-      tipo_cliente: 'Publico'
+      tipo_cliente: getCliente.transform(this.cotizacion.cliente.tipo_cliente),
+      envio_gratis,
+      subtotal: this.subtotal
     };
 
-    this._pdfGenerator.printPdf(body);
-      // .subscribe( res => console.log(res));
+    this.recivePDF(body);
   }
+
+  /**
+   * @description
+   * Recive el pdf del request y lo envía para descargar
+   * @param body Objeto que contiene los datos que serán impresos
+   */
+  private recivePDF(body) {
+    this._pdfGenerator.getPDF(body)
+      .subscribe(
+        (req: any) => {
+          this.downloadPDF(req.htmlPdf);
+        }
+      );
+  }
+
+  private downloadPDF(pdf: string) {
+    const linkSource = `data:application/pdf;base64,${pdf}`;
+    const downloadLink = document.createElement('a');
+    const fileName = `cotizacion ${this.cotizacion.cliente.nombre}.${this.cotizacion.id}.pdf`;
+
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+  }
+
 }

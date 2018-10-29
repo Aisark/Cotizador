@@ -27,7 +27,6 @@ export class TableCotizadorComponent implements OnInit {
   private tipo_precio: TipoCliente;
 
   // Variables de entrada
-  @Input('nuevoTable') nuevo = false;
   @Input('tipo_precio') set _tipo_precio( val: TipoCliente) {
     this.tipo_precio = val;
     if (this.cotizacion) {
