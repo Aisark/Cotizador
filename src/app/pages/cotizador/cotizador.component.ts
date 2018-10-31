@@ -1,3 +1,4 @@
+import { ItemCotizacion } from 'app/interfaces/item-cotizacion';
 import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -108,7 +109,6 @@ export class CotizadorComponent implements OnInit {
       envio_gratis,
       subtotal: this.subtotal
     };
-
     this.recivePDF(body);
   }
 
@@ -134,6 +134,10 @@ export class CotizadorComponent implements OnInit {
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
     downloadLink.click();
+  }
+
+  public Cotizacion(event: Array<ItemCotizacion>) {
+    this.cotizacion.lista_productos = event;
   }
 
 }
