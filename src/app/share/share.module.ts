@@ -8,6 +8,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { SearchComponent } from '@share/search/search.component';
 import {LoadingComponent} from '@share/loading/loading.component';
+import { ListaComponent } from '@components/lista/lista.component';
 
 @NgModule({
   imports: [
@@ -20,14 +21,16 @@ import {LoadingComponent} from '@share/loading/loading.component';
     FooterComponent,
     NavbarComponent,
     SearchComponent,
-    LoadingComponent
+    LoadingComponent,
+    ListaComponent
   ],
   exports: [
     SidebarComponent,
     FooterComponent,
     NavbarComponent,
     SearchComponent,
-    LoadingComponent
+    LoadingComponent,
+    ListaComponent
   ]
 })
 export class ShareModule { }

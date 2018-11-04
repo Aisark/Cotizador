@@ -1,0 +1,11 @@
+<app-preloader *ngIf="loading"></app-preloader>
+<div *ngIf="!loading" class="contenido">
+  
+  <div class="fila">
+    <h1 class="center">Paquetes</h1>
+  </div>
+  <div class="columna menu">
+    <app-lista *ngFor="let tipo of segmentacion | items" class="seleccion" listName={{tipo[0].tipo}} (changeElement)="cambiar($event)" ></app-lista>
+  </div>
+
+</div>

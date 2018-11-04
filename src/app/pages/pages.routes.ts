@@ -5,6 +5,7 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { ProductoComponent } from './productos/producto/producto.component';
 import { ProductosComponent } from './productos/productos.component';
 import { PagesComponent } from './pages.component';
+import { PaquetesComponent } from './paquetes/paquetes.component';
 
 let childrenRoutes: Routes = [ { path: 'cotizaciones', component: CotizacionesComponent },
 { path: 'cotizaciones/:id', component: CotizacionesComponent },
@@ -14,7 +15,10 @@ let childrenRoutes: Routes = [ { path: 'cotizaciones', component: CotizacionesCo
 { path: 'clientes', component: ClientesComponent },
 {path: 'productos' , component: ProductosComponent},
 {path: 'producto/:tipo', component: ProductoComponent},
-{path: 'producto/:tipo/:name', component: ProductoComponent}];
+{path: 'producto/:tipo/:name', component: ProductoComponent},
+{path: 'paquetes', component:PaquetesComponent}
+
+];
 
 const Pagesroutes: Routes = [
   {

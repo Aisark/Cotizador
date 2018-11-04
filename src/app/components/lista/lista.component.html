@@ -1,0 +1,9 @@
+<div class="lista">
+    <button (click)="toggle(lista)" class="btn btn-primary">{{listName}}</button>
+    <ul #lista class="list-group">
+        <li
+        [ngClass]="{'none': !abierto}"
+        (click)="changeSelection(producto)"
+        *ngFor="let producto of productos" class="list-group-item pointer">{{producto.name}}</li>
+    </ul>
+</div>

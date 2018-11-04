@@ -16,7 +16,7 @@ import { ShareModule } from '@share/share.module';
 import { ProductosComponent } from '@pages/productos/productos.component';
 import { ProductoComponent } from '@pages/productos/producto/producto.component';
 import { PagesRoutes } from './pages.routes';
-import { LoginComponent } from '../Pages/login/login.component';
+import { PaquetesComponent } from './paquetes/paquetes.component';
 
 // Pipes
 
@@ -40,7 +40,8 @@ import { LoginComponent } from '../Pages/login/login.component';
     Page404Component,
     ClientesComponent,
     ProductosComponent,
-    ProductoComponent
+    ProductoComponent,
+    PaquetesComponent
     
   ],
   exports: [
