@@ -1,8 +1,8 @@
-<div class="table-responsive" *ngIf="lista.length > 0">
-    <table class="table table-shopping">
+<div class="table-responsive" *ngIf="cotizacion">
+    <table class="table table-shopping" *ngIf="cotizacion.lista_productos.length > 0">
 
         <!-- #region Cabecera de la tabla-->
-        <thead [class.thead-print]="isPrintable">
+        <thead>
 
             <th>#</th>
             <th>Producto</th>
@@ -18,36 +18,24 @@
 
         <!-- #region Cuerpo de la Tabla-->
         <tbody>
-            <tr *ngFor="let item of lista; let i=index" [class.tr-print]="isPrintable">
+            <tr *ngFor="let item of cotizacion.lista_productos; let i=index" [class.tr-print]="isPrintable">
                 <td>{{i+1}}</td>
                 <td class="producto_name">{{item.producto.name}}</td>
                 <td class="td-input-number">
-                    <div class="row" *ngIf="!isPrintable">
+                    <div class="row">
                         <div class="col col-sm-6">
-                            <input #inputCantidad (keyup)="change(item, $event)" class="form-control" [value]="item.cantidad" type="number" min="1" name="cantidad" id="cantidad">
-                        </div>
-                        <div class="col col-sm-6">
-                            <div class="btn-group">
-                                <button (click)="changeItemCantidad(item, -1)" class="btn btn-primary btn-sm"> <i class="mdi mdi-minus"></i> </button>
-                                <button (click)="changeItemCantidad(item, 1)" class="btn btn-primary btn-sm"> <i class="mdi mdi-plus"></i> </button>
-                            </div>
+                            <input #inputCantidad [disabled]="updateList" (blur)="getTotal(inputCantidad, item)" class="form-control" [value]="item.cantidad" type="number" min="1" name="cantidad">
                         </div>
                     </div>
-
-
-                    <div *ngIf="isPrintable">
-                        {{item.cantidad}} x
-                    </div>
-
                 </td>
                 <td>
-                    {{item | getTypePrecio: tipo_precio}}
+                    $ {{item | getTypePrecio: tipo_precio}}
                 </td>
                 <td>
-                    {{item | getTypePrecio: tipo_precio: true}}
+                    $ {{item.importe}}
                 </td>
-                <td class="text-right" *ngIf="!isPrintable">
-                    <button (click)="removeItem(item)" type="button" data-placement="left" title="Remove item" class="btn btn-sm btn-danger">
+                <td class="text-right">
+                    <button [disabled]="updateList" (click)="removeItem(item)" type="button" data-placement="left" title="Remove item" class="btn btn-sm btn-danger">
                             <i class="mdi mdi-close"></i>
                     </button>
                 </td>
@@ -70,7 +58,7 @@
                 <td class="td-buttom-5 td-top-5"></td>
                 <td class="td-buttom-5 td-top-5"></td>
                 <td class="text-right td-buttom-5 td-top-5"><strong>Costo de Envío:</strong></td>
-                <ng-container *ngIf="enviogratis; else elseTemplate">
+                <ng-container *ngIf="cotizacion.envio_gratis; else elseTemplate">
                     <td class="td-buttom-5 td-top-5">Envío Gratis</td>
                 </ng-container>
                 <ng-template #elseTemplate>
@@ -96,15 +84,14 @@
     </table>
 </div>
 
-<div class="row" *ngIf="!isPrintable">
+<div class="row">
     <div class="col-md-4 offset-md-8">
         <button (click)="showModal()" class="btn btn-success btn-block"><i class="mdi mdi-plus"></i> Agregar Producto</button>
     </div>
 </div>
 
-<div class="row" *ngIf="lista.length > 0 && !isPrintable">
-    <div class="col-md-4 offset-md-8" style="margin-top: 20px;">
-        <button (click)="saveCotizacion()" *ngIf="nuevo" class="btn btn-primary btn-block">Enviar Cotización <i class="mdi mdi-send"></i> </button>
-        <button (click)="saveCotizacion()" *ngIf="!nuevo" class="btn btn-primary btn-block">Actualizar Cotización </button>
+<div class="row" *ngIf="cotizacion">
+    <div *ngIf="cotizacion.lista_productos.length > 0" class="col-md-4 offset-md-8" style="margin-top: 20px;">
+        <button (click)="saveCotizacion()" class="btn btn-primary btn-block">Actualizar Cotización </button>
     </div>
 </div>

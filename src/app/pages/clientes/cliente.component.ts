@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ClienteService } from '@services/cliente/cliente.service';
 import { NgForm } from '@angular/forms';
 import swal from 'sweetalert2';
+import { TipoCliente } from '@enums/tipo-cliente.enum';
+import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 
 @Component({
   selector: 'app-cliente',
@@ -16,13 +18,14 @@ export class ClienteComponent implements OnInit {
   private nuevo = false;
   private local = false;
   private cliente: Cliente;
-
-  // @ViewChild('localInput') localInput: ElementRef;
+  private TipoCliente = TipoCliente;
+  private tipo_cliente =  TipoCliente.PUBLICO;
 
   constructor(
     private _router: Router,
     private _acrouter: ActivatedRoute,
-    private _clienteServices: ClienteService
+    private _clienteServices: ClienteService,
+    private _cotizacionServices: CotizacionService
   ) {
     this._acrouter.params.subscribe( params => {
 
@@ -53,7 +56,7 @@ export class ClienteComponent implements OnInit {
             title: `Se ha agregado existosamente`,
             text: `${this.cliente.nombre}`
           }).then( (result: any) => {
-            this._router.navigate(['/cotizador', 'nuevo']);
+            this.createCotizacion(this.cliente);
           });
         },
         error => {
@@ -74,6 +77,19 @@ export class ClienteComponent implements OnInit {
     } else {
 
     }
+  }
+
+  public createCotizacion(cliente: Cliente) {
+    const c = new Cliente(
+      cliente.correo,
+      cliente.estado,
+      cliente.telefono,
+      cliente.nombre,
+      cliente.local,
+      cliente.tipo_cliente
+    );
+
+    this._cotizacionServices.newCotizacion(c);
   }
 
 }

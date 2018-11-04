@@ -64,7 +64,7 @@ export class ProductoService {
   // ARRAY DE TODOS LOS PRODUCTOS 
   public getAllProductos(page?: number) {
     let url = `${URL_PRUEBA}/productos`;
-      return this.http.get(`${url}`,this.getHeaders())
+    return this.http.get(url, this.getHeaders())
             .pipe(
               map(
                 (productos: any) => productos.Items

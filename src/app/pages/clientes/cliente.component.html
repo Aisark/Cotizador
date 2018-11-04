@@ -61,7 +61,15 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="telfonoInput">Num. Telefono</label>
-                                <input ngModel name="telefono" required type="number" class="form-control" placeholder="Ingresar Num. Telfonico">
+                                <input ngModel name="telefono" required type="number" class="form-control" placeholder="Ingresar Num. Telefonico">
+                            </div>
+                            <div class="form-group col col-md-3">
+                                <label for="exampleFormControlSelect2">Tipo de Cliente</label>
+                                <select [(ngModel)]="tipo_cliente" name="tipo_cliente" (change)="tipo_cliente = +($event.target.value)" class="form-control" id="exampleFormControlSelect2">
+                                    <option selected [value]="TipoCliente.PUBLICO">Publico</option>
+                                    <option [value]="TipoCliente.DISTRIBUIDOR_OCASIONAL">Distribuidor Ocasional</option>
+                                    <!-- <option [value]="TipoCliente.DISTRIBUIDOR_PREFERENCIAL">Distribuidor Preferencial</option> -->
+                                </select>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-success mr-2">Submit</button>
