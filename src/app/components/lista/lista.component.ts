@@ -24,7 +24,11 @@ export class ListaComponent implements OnInit {
     )
   }
 
-  changeSelection(producto: Producto) {
+  changeSelection(producto: Producto , event) {
+    event.srcElement.classList.add("active");
+    if (this.seleccionados.includes(producto)) {
+      return;
+    }
     this.seleccionados.push(producto);
     this.changeElement.emit(this.seleccionados);
   }

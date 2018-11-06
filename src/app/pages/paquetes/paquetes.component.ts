@@ -10,6 +10,8 @@ export class PaquetesComponent implements OnInit {
 
   loading = true;
 
+  clase = 'none';
+
   segmentacion = {
     jabon: [],
     desodorante: [],
@@ -27,7 +29,8 @@ export class PaquetesComponent implements OnInit {
 
   paquete = [];
 
-  seleccionado: number;
+  nombresProductos = [];
+
 
   constructor(private _productoService: ProductoService) {
       this._productoService.getAllProductos().subscribe(
@@ -43,9 +46,20 @@ export class PaquetesComponent implements OnInit {
       )
    }
 
-   cambiar(producto: Producto) {
-      this.paquete.push(producto[0]);
-      console.log(this.paquete);
+   public cambiar(producto: Producto[]) {
+      this.paquete.push(producto[producto.length-1]);
+   }
+
+   public siguiente() {
+     for (let i = this.paquete.length-1 ; i >= 0; i--) {
+       this.nombresProductos.push(this.paquete[i].name);
+     }
+     this.clase = 'activado';
+   }
+
+   public cerrarModal(clase: string) {
+     this.clase = clase;
+     this.nombresProductos = [];
    }
 
 
