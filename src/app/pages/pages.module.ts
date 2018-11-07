@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 // Componentes
 import { CotizadorComponent } from './cotizador/cotizador.component';
@@ -12,15 +12,6 @@ import { PreloaderComponent } from '../components/preloader/preloader.component'
 import { Page404Component } from './page404/page404.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { PipesModule } from '@pipes/pipes.module';
-import { ShareModule } from '@share/share.module';
-import { ProductosComponent } from '@pages/productos/productos.component';
-import { ProductoComponent } from '@pages/productos/producto/producto.component';
-import { PagesRoutes } from './pages.routes';
-import { PaquetesComponent } from './paquetes/paquetes.component';
-import { MenuPaquetesComponent } from './menu-paquetes/menu-paquetes.component';
-
-
-
 
 // Pipes
 
@@ -29,11 +20,7 @@ import { MenuPaquetesComponent } from './menu-paquetes/menu-paquetes.component';
     CommonModule,
     RouterModule,
     FormsModule,
-    PipesModule,
-    ShareModule,
-    ReactiveFormsModule,
-    PagesRoutes,
-    RouterModule
+    PipesModule
   ],
   declarations: [
     CotizadorComponent,
@@ -42,12 +29,7 @@ import { MenuPaquetesComponent } from './menu-paquetes/menu-paquetes.component';
     CotizacionesComponent,
     PreloaderComponent,
     Page404Component,
-    ClientesComponent,
-    ProductosComponent,
-    ProductoComponent,
-    PaquetesComponent,
-    MenuPaquetesComponent
-    
+    ClientesComponent
   ],
   exports: [
     CotizadorComponent,

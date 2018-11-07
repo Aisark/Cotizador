@@ -30,14 +30,3 @@
     -webkit-transition-duration: 250ms;
     transition-duration: 250ms;
 }
-
-.table-responsive {
-    height: 300px;
-    overflow: scroll;
-}
-
-.producto_name {
-    max-width: 300px;
-    overflow: hidden;
-    white-space: inherit !important;
-}

@@ -1,7 +1,8 @@
-<!-- #endregion -->
+<!-- #region Navbar-->
 <app-navbar></app-navbar>
+<!-- #endregion -->
+
 <div class="container-fluid page-body-wrapper">
-        
 
     <!-- #region Sidebar -->
     <app-sidebar></app-sidebar>
@@ -9,8 +10,8 @@
 
     <div class="main-panel">
 
-        <div >
-            <router-outlet ></router-outlet>
+        <div class="content-wrapper">
+            <router-outlet></router-outlet>
         </div>
 
         <!-- #region Footer-->
@@ -18,3 +19,5 @@
         <!-- #endregion -->
     </div>
 </div>
+
+<!--The content below is only a placeholder and can be replaced.-->
