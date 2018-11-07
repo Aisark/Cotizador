@@ -16,6 +16,7 @@ import { PagesRoutes } from '@pages/pages.routes';
 import { LoginComponent } from './Pages/login/login.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

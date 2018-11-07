@@ -10,8 +10,18 @@ export class MenuPaquetesComponent implements OnInit {
 
   constructor(private _servicioProductos: ProductoService) { }
 
+  paquetes: any;
+
+  loading = true;
+
   ngOnInit() {
-    
+      this._servicioProductos.getProductsByType('paquete')
+          .subscribe(
+            (datos: any) => {
+              this.paquetes = datos.Items;
+              this.loading = false;
+            }
+          )   
   }
 
 }

@@ -38,7 +38,9 @@ export class PaquetesComponent implements OnInit {
           this.productos = datos;
           for (let producto in this.productos) {
             let tipo = this.productos[producto].tipo;
-            this.segmentacion[tipo].push(this.productos[producto]);
+            if (this.segmentacion[tipo]){
+              this.segmentacion[tipo].push(this.productos[producto]);
+            }
           }
           this.loading = false;
 

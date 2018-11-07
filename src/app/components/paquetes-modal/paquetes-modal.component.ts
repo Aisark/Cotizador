@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ProductoService } from '@services/producto/producto.service';
 
 @Component({
   selector: 'app-paquetes-modal',
@@ -14,6 +15,8 @@ export class PaquetesModalComponent implements OnInit {
 
   precio: number;
 
+  fecha: Date;
+
   nuevoPaquete = {
     name: null,
     tipo: 'paquete',
@@ -22,27 +25,35 @@ export class PaquetesModalComponent implements OnInit {
       distribuidor_preferencial: null,
       publico: null
     },
-    productos:null
+    productos:null,
+    fecha:null
   };
 
 
-  constructor() { 
-    console.log(this.nombresProductos);
+  constructor(private _servicioProducto:ProductoService) { 
+    this.fecha = new Date();
   }
 
   ngOnInit() {
   }
 
-  public cerrarModal(event) {
+  public cerrarModal() {
     this.cerrado.emit('none');
   }
 
   public guardar(forma) {
+    let nombre: string = forma.value.nombre;
+    let auxiliar = nombre.slice(1,nombre.length);
+    nombre = nombre.toUpperCase().slice(0,1);
+    nombre = nombre.concat(auxiliar);
+    this.nuevoPaquete.name = nombre;
     this.nuevoPaquete.precio.distribuidor_ocasional = forma.value.distribuidor;
     this.nuevoPaquete.precio.distribuidor_preferencial = forma.value.preferencial;
     this.nuevoPaquete.precio.publico = forma.value.public;
     this.nuevoPaquete.productos = this.paquete;
-    console.log(this.paquete);
+    this.nuevoPaquete.fecha = this.fecha;
+    this._servicioProducto.postProducto(this.nuevoPaquete).subscribe();
+    this.cerrarModal();
   }
 
 }

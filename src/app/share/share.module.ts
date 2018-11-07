@@ -12,11 +12,14 @@ import { ListaComponent } from '@components/lista/lista.component';
 import { PaquetesModalComponent } from '@components/paquetes-modal/paquetes-modal.component';
 
 
+import { NgDatepickerModule } from 'ng2-datepicker';
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    NgDatepickerModule
   ],
   declarations: [
     SidebarComponent,
