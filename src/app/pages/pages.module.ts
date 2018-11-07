@@ -20,8 +20,6 @@ import { PaquetesComponent } from './paquetes/paquetes.component';
 import { MenuPaquetesComponent } from './menu-paquetes/menu-paquetes.component';
 
 
-
-
 // Pipes
 
 @NgModule({
