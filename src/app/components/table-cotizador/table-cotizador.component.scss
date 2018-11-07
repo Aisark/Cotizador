@@ -5,4 +5,21 @@
      .td-top-5 {
          padding-top: 5px !important;
      }
+     .producto_name {
+         white-space: inherit !important;
+     }
+ }
+ 
+ .tr-print {
+     td {
+         font-size: 20px;
+         color: #000 !important;
+     }
+ }
+ 
+ .thead-print {
+     th {
+         font-size: 25px !important;
+         color: blue !important;
+     }
  }

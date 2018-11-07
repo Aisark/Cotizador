@@ -37,6 +37,7 @@
                                         <button type="button" [routerLink]="['/cotizador', cotizacion.id, cotizacion.numero]" class="btn btn-sm btn-primary btn-fw">
                                             Ver Cotización
                                         </button>
+                                        <button (click)="delete(cotizacion)" type="button" class="btn btn-sm btn-danger"> <i class="fa fa-trash"></i> </button>
                                     </div>
                                 </td>
                             </tr>

@@ -1,30 +1,36 @@
 <div class="container-fluid">
 
     <!-- #region Titulo-->
-    <div class="row" *ngIf="cliente">
+    <div class="row" *ngIf="cotizacion">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h1 *ngIf="nuevo" class="subtitle">Crear Cotización</h1>
-                    <h1 *ngIf="!nuevo" class="subtitle">Editar Cotización</h1>
-                    <h3 class="card-title">Para: {{cliente.nombre}} - {{cliente.estado}}</h3>
+                    <h1 class="subtitle">Editar Cotización</h1>
+                    <h3 class="card-title"> <strong>Para:</strong> {{cliente.nombre}} - {{cliente.estado}}</h3>
                     <hr>
-                    <h1 class="card-title">Fecha: {{cotizacion.id}}</h1>
+                    <h1 class="card-title"><strong>Fecha:</strong> {{cotizacion.id}}</h1>
+                    <h1 class="card-title"><strong>Tipo de cliente:</strong> {{cliente.tipo_cliente | getTypeCliente}}</h1>
                 </div>
             </div>
         </div>
     </div>
     <!-- #endregion -->
 
-    <div class="row">
-        <div class="form-group col col-md-4">
-            <label for="exampleFormControlSelect2">Tipo de Cliente</label>
-            <select [(ngModel)]="tipo_precio" name="tipo_precio" (change)="tipo_precio = +($event.target.value)" class="form-control" id="exampleFormControlSelect2">
-                <option [value]="TipoCliente.PUBLICO">Publico</option>
-                <option [value]="TipoCliente.DISTRIBUIDOR_OCASIONAL">Distribuidor Ocasional</option>
-                <option [value]="TipoCliente.DISTRIBUIDOR_PREFERENCIAL">Distribuidor Preferencial</option>
-            </select>
+    <div class="row" *ngIf="cotizacion">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col col-md-4">
+                            <div class="btn-group">
+                                <button (click)="printDocument()"  class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 
     <!-- #region Tablas-->
@@ -32,7 +38,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <app-table-cotizador [nuevoTable]="nuevo" [cotizacionSet]="cotizacion" (cotizacionSend)="sendCotizacion($event)" [tipo_precio]="tipo_precio"></app-table-cotizador>
+                    <app-table-cotizador [cotizacion]="cotizacion" (subtotal)="subtotal = $event" (cotizacionSend)="sendCotizacion($event)" [tipo_precio]="tipo_precio"></app-table-cotizador>
                 </div>
             </div>
         </div>
