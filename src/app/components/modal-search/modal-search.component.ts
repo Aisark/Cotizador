@@ -35,6 +35,7 @@ export class ModalSearchComponent implements OnInit {
 
   public showTipoCliente(value: any) {
     this.tipo_precio = +value + 1;
+    console.log(this.tipo_precio);
   }
 
   public hiddeModal () {
@@ -58,14 +59,16 @@ export class ModalSearchComponent implements OnInit {
 
     this.addListProducts = [];
 
-    this._productService.getProductsByType(tipo, 'false')
+    this._productService.getProductsByType(tipo)
       .subscribe(
         (res: any) => {
           res.Items.forEach(item => {
-            this.addListProducts.push({
-              isAdd: false,
-              producto: item
-            });
+            if (item.isAviable) {
+              this.addListProducts.push({
+                isAdd: false,
+                producto: item
+              });
+            }
           });
         }
       );

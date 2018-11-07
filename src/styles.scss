@@ -1,7 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-html, body {
-    height: 100%;
-}
+
 .hide {
     display: none;
 }
@@ -21,35 +19,4 @@ input[type=number]::-webkit-outer-spin-button {
 
 .pointer {
     cursor: pointer;
-}
-
-.center {
-    text-align: center;
-}
-
-.fila {
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-    margin: auto;
-}
-
-.columna {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    margin: auto;
-}
-
-.columna button {
-    width: 15%;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.none {
-    display: none;
 }

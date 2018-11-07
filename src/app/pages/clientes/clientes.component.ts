@@ -6,10 +6,7 @@ import { ClienteService } from '@services/cliente/cliente.service';
 import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 
 // Models
-import { Cliente, Cotizacion } from '@models/models.index';
-
-// Otras
-import swal from 'sweetalert2';
+import { Cliente } from '@models/models.index';
 
 @Component({
   selector: 'app-clientes',
@@ -24,7 +21,7 @@ export class ClientesComponent implements OnInit {
 
   constructor(
     private _clienteServices: ClienteService,
-    private _cotizacionServices: CotizacionService,
+    private _cotizacionesServices: CotizacionService,
     private _router: Router
   ) { }
 
@@ -42,6 +39,8 @@ export class ClientesComponent implements OnInit {
   }
 
   createCotizacion (cliente: Cliente) {
-    this._cotizacionServices.newCotizacion(cliente);
+    this._cotizacionesServices.cliente = cliente;
+
+    this._router.navigate(['/cotizador', 'nuevo']);
   }
 }

@@ -5,9 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 // Services
 import { CotizacionService } from '@services/cotizacion/cotizacion.service';
 
-// Librerias externas
-import swal from 'sweetalert2';
-
 @Component({
   selector: 'app-cotizaciones',
   templateUrl: './cotizaciones.component.html',
@@ -78,46 +75,4 @@ export class CotizacionesComponent implements OnInit {
       });
   }
 
-  public delete (cotizacion: Cotizacion) {
-    
-    swal({
-      title: 'Alto!',
-      text: '¿Esta seguro de querer borrar la cotización?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Borralo!'
-    })
-    .then( (res: any) => {
-      if (res.value) {
-        this.deleteCotizacion(cotizacion);
-      }
-    });
-  }
-
-  public deleteCotizacion (cotizacion: Cotizacion) {
-    this._cotizacionServices.deleteCotizacion(cotizacion)
-      .subscribe(
-        () => {
-          swal(
-            'Exito!!',
-            'La cotización se ha borrado',
-            'success'
-          );
-
-          const position = this.cotizaciones.indexOf(cotizacion);
-
-          this.cotizaciones.splice(position, 1);
-        },
-        (err) => {
-          console.log(err);
-          swal(
-            'Error!!',
-            'Algo ha ocurrido al borrar la cotización',
-            'error'
-          );
-        }
-      );
-  }
 }
