@@ -30,6 +30,7 @@ export class CotizadorComponent implements OnInit {
   tipo_precio = this.TipoCliente.PUBLICO;
   cotizacion: Cotizacion;
   subtotal: number;
+  load = false;
 
   constructor(
     private _acrouter: ActivatedRoute,
@@ -118,6 +119,7 @@ export class CotizadorComponent implements OnInit {
    * @param body Objeto que contiene los datos que serán impresos
    */
   private recivePDF(body) {
+    this.load = true;
     this._pdfGenerator.getPDF(body)
       .subscribe(
         (req: any) => {
@@ -134,6 +136,7 @@ export class CotizadorComponent implements OnInit {
     downloadLink.href = linkSource;
     downloadLink.download = fileName;
     downloadLink.click();
+    this.load = false;
   }
 
   public Cotizacion(event: Array<ItemCotizacion>) {
