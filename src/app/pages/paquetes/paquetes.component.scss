@@ -1,0 +1,24 @@
+.menu {
+    height: 70%;
+    width: 70%;
+    margin-top: 15px;
+    border-top: 2px solid blue;
+    border-bottom: 2px solid blue;
+    margin-bottom: 15px;
+}
+
+.seleccion {
+    display: block;
+    width: 100%;
+}
+
+.none {
+   display: none;
+}
+
+.botonera {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 30px;
+}

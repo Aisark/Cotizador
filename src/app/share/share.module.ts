@@ -8,26 +8,36 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { SearchComponent } from '@share/search/search.component';
 import {LoadingComponent} from '@share/loading/loading.component';
+import { ListaComponent } from '@components/lista/lista.component';
+import { PaquetesModalComponent } from '@components/paquetes-modal/paquetes-modal.component';
+
+
+import { NgDatepickerModule } from 'ng2-datepicker';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    NgDatepickerModule
   ],
   declarations: [
     SidebarComponent,
     FooterComponent,
     NavbarComponent,
     SearchComponent,
-    LoadingComponent
+    LoadingComponent,
+    ListaComponent,
+    PaquetesModalComponent
   ],
   exports: [
     SidebarComponent,
     FooterComponent,
     NavbarComponent,
     SearchComponent,
-    LoadingComponent
+    LoadingComponent,
+    ListaComponent,
+    PaquetesModalComponent
   ]
 })
 export class ShareModule { }
