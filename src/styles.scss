@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-
+html, body {
+    height: 100%;
+}
 .hide {
     display: none;
 }
@@ -19,4 +21,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 .pointer {
     cursor: pointer;
+}
+
+.volver {
+    margin-bottom: 30px;
 }

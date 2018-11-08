@@ -80,6 +80,7 @@ export class ModalSearchComponent implements OnInit {
       }
     });
 
+    console.log(productos);
     this._modalSearch.newProductos.emit(productos);
     this._modalSearch.hideModal();
   }

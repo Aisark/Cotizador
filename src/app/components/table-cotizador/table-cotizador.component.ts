@@ -43,7 +43,6 @@ export class TableCotizadorComponent implements OnInit {
     if (value) {
       this.cotizacion = value;
       this.recalculate();
-      this.addProductos();
     }
   }
 
@@ -55,6 +54,7 @@ export class TableCotizadorComponent implements OnInit {
     public _modalSearch: ModalSearchService,
     private _cotizadorService: CotizacionService
   ) {
+    this.addProductos();
    }
 
   ngOnInit() {
@@ -66,15 +66,18 @@ export class TableCotizadorComponent implements OnInit {
    * en el arreglo "lista"
    */
   public addProductos() {
-    let verify = false;
-
-    const lista = this.cotizacion.lista_productos;
     this._modalSearch.newProductos.subscribe(
       (productos: Array<Producto>) => {
+
+
+        let verify = false;
+
+        const lista = this.cotizacion.lista_productos;
+
         productos.forEach ( producto => {
 
           lista.forEach( (res: ItemCotizacion) => {
-            if (res.producto === producto) {
+            if (res.producto.name === producto.name) {
               verify = true;
             }
           });
@@ -95,7 +98,6 @@ export class TableCotizadorComponent implements OnInit {
           tipo: this.tipo_precio,
           costo_envio: 150,
         };
-
         this.calculate(body);
 
       }
@@ -144,7 +146,7 @@ export class TableCotizadorComponent implements OnInit {
   }
 
   public calculate(body: any) {
-    if (this.cotizacion.lista_productos.length > 0) {
+    if (this.cotizacion.lista_productos.length >= 0) {
       this.updateList = true;
       this._cotizadorService.calculeTotalCotizacion(body)
         .subscribe( (res: any) => {

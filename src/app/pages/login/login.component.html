@@ -1,0 +1,62 @@
+<div class="row justify-content-center back">
+
+  <!--Iniciar sesión-->
+
+  <div *ngIf="!registrarse" class="col-md-4 custom">
+    <div class="card custom">
+      <h1 style="text-align:center; margin-top:2px;">Iniciar sesión</h1>
+
+      <div class="card-body">
+       
+        <form #login="ngForm" (ngSubmit)="iniciar(login)">
+          <div class="form-group">
+            <label>Correo electronico</label>
+            <input name="email" type="email" [(ngModel)]="usuario.email" class="form-control"  placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input name="password" type="password" [(ngModel)]="usuario.password" class="form-control" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary">Iniciar sesion</button>
+          <button style="margin-left:8px;" type="button" class="btn btn-danger" (click)="toogleRegistro()">Registrarse</button>
+        </form>
+
+      </div>
+
+    </div>
+
+   
+  </div>
+  
+    <!--Registrarse-->
+
+    <div *ngIf="registrarse" class="col-md-4 custom">
+        <div class="card custom">
+          <h1 style="text-align:center; margin-top:2px;">Iniciar sesión</h1>
+    
+          <div class="card-body">
+           
+            <form #login="ngForm" (ngSubmit)="registrar(login)">
+              <div class="form-group">
+                <label>Correo electronico</label>
+                <input name="email" [(ngModel)]="usuario.email" type="email" class="form-control"  placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label>Contraseña</label>
+                <input name="password" [(ngModel)]="usuario.password" type="password" class="form-control" placeholder="Password">
+              </div>
+              <div class="form-group">
+                  <label>Repetir contraseña</label>
+                  <input type="password" class="form-control" placeholder="Password">
+                </div>
+              <button type="submit" class="btn btn-primary">Confirmar</button>
+              <button style="margin-left:5px;" (click)="toogleRegistro()" type="button" class="btn btn-danger">Cancelar</button>
+            </form>
+    
+          </div>
+    
+        </div>
+    
+      </div>
+
+</div>

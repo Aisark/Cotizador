@@ -1,7 +1,9 @@
 <div class="container-fluid">
 
+    <app-preloader *ngIf="!cotizacion || load "></app-preloader>
+
     <!-- #region Titulo-->
-    <div class="row" *ngIf="cotizacion">
+    <div *ngIf="cotizacion && !load" class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -16,14 +18,14 @@
     </div>
     <!-- #endregion -->
 
-    <div class="row" *ngIf="cotizacion">
+    <div *ngIf="cotizacion && !load" class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col col-md-4">
                             <div class="btn-group">
-                                <button (click)="printDocument()"  class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
+                                <button (click)="printDocument()" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></button>
                             </div>
                         </div>
                     </div>
@@ -34,7 +36,7 @@
     </div>
 
     <!-- #region Tablas-->
-    <div class="row">
+    <div *ngIf="cotizacion && !load" class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
