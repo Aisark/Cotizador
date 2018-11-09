@@ -18,6 +18,7 @@ import { ProductoComponent } from '@pages/productos/producto/producto.component'
 import { PagesRoutes } from './pages.routes';
 import { PaquetesComponent } from './paquetes/paquetes.component';
 import { MenuPaquetesComponent } from './menu-paquetes/menu-paquetes.component';
+import { VistaClienteComponent } from './clientes/vista-cliente/vista-cliente.component';
 
 
 // Pipes
@@ -44,7 +45,8 @@ import { MenuPaquetesComponent } from './menu-paquetes/menu-paquetes.component';
     ProductosComponent,
     ProductoComponent,
     PaquetesComponent,
-    MenuPaquetesComponent
+    MenuPaquetesComponent,
+    VistaClienteComponent
     
   ],
   exports: [
