@@ -11,6 +11,7 @@ export class PaquetesModalComponent implements OnInit {
   @Input() clase: string;
   @Input() nombresProductos;
   @Input() paquete;
+  @Input() vista: string;
   @Output() cerrado: EventEmitter<string> = new EventEmitter(); 
 
   precio: number;
@@ -25,8 +26,8 @@ export class PaquetesModalComponent implements OnInit {
       distribuidor_preferencial: null,
       publico: null
     },
-    productos:null,
-    fecha:null
+    productos: null,
+    fecha: null
   };
 
 

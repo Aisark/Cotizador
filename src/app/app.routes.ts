@@ -2,11 +2,11 @@ import {Routes, RouterModule} from '@angular/router';
 import { PagesComponent } from '@pages/pages.component';
 import { Page404Component } from '@pages/page404/page404.component';
 
-import { LoginComponent } from './Pages/login/login.component';
+import { LoginComponent } from './pages/login/login.component';
 
 const APP_R: Routes = [
     {
-        path:'login',
+        path: 'login',
         component: LoginComponent
     },
     {

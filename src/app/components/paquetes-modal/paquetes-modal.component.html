@@ -1,5 +1,5 @@
 <div class="fondoNegro animated fadeIn"  [ngClass]="clase">
-  <div class="modal" style="display: block" tabindex="-1" role="dialog">
+  <div id="principal" class="modal" style="display: block" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -12,12 +12,12 @@
         </div>
         <div class="modal-body text-center">
           
-          <h1>Productos del paquete: </h1>
+          <h1>Productos del paquete </h1>
           <ol>
             <li *ngFor="let producto of nombresProductos">{{producto}}</li>
           </ol>
 
-          <form (ngSubmit)="guardar(forma)" #forma="ngForm">
+          <form *ngIf="vista==='si'" (ngSubmit)="guardar(forma)" #forma="ngForm">
               <div class="form-group">
                   <label>Nombre</label>
                   <input required [(ngModel)]="nuevoPaquete.name" name="nombre" type="text" class="form-control" placeholder="nombre">

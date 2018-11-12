@@ -7,3 +7,9 @@
     height: 100%;
     z-index: 99999;
 }
+
+#principal {
+    margin-bottom: 20px;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+}

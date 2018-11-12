@@ -31,15 +31,16 @@ export class PaquetesComponent implements OnInit {
 
   nombresProductos = [];
 
+  vista = true;
+
 
   constructor(private _productoService: ProductoService) {
       this._productoService.getAllProductos().subscribe(
         (datos) => {
           this.productos = datos;
           for (let producto in this.productos) {
-            let tipo = this.productos[producto].tipo;
-            if (this.segmentacion[tipo]){
-              this.segmentacion[tipo].push(this.productos[producto]);
+            if (this.segmentacion[this.productos[producto].tipo]){
+              this.segmentacion[this.productos[producto].tipo].push(this.productos[producto]);
             }
           }
           this.loading = false;
@@ -49,7 +50,7 @@ export class PaquetesComponent implements OnInit {
    }
 
    public cambiar(producto: Producto[]) {
-      this.paquete.push(producto[producto.length-1]);
+      this.paquete.push(producto[producto.length - 1]);
    }
 
    public siguiente() {

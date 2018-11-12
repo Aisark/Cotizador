@@ -37,11 +37,15 @@
             <label>Tags</label>
             <input class="form-control" formControlName='Tags' type="text" placeholder="descripcion">
         </div>
-        <button class="btn btn-primary center text-center">
-          {{mensajeBoton}}
-        </button>
-        <button (click)="borrar()" type="button" style="margin-left: 15px" class="btn btn-danger center text-center">
-          Eliminar
-        </button>
+        <div class="row" style="margin-bottom: 25px;">
+            <div class="col-md-12 text-center">
+                    <button class="btn btn-primary">
+                            {{mensajeBoton}}
+                    </button>
+                    <button *ngIf="!nuevo" (click)="borrar()" type="button" style="margin-bottom: 35px" class="btn btn-danger">
+                        Eliminar
+                    </button>
+            </div>
+        </div>
     </form>
 </div>

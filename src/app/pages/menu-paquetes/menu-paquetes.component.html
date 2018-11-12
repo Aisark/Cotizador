@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let producto of paquetes; let i = index;">
+      <tr class="pointer" *ngFor="let producto of paquetes; let i = index;" (click)="activar(i)">
           <td>{{i+1}}</td>
           <td>{{producto.name}}</td>
           <td>{{producto.precio.publico}}</td>
@@ -21,3 +21,6 @@
   </table>
   <button routerLink="/paquetes" class="btn btn-primary">Crear nuevo paquete</button>
 </div>
+<app-paquetes-modal 
+[clase]="clase" vista="vista" [nombresProductos]="nombresProductos" [paquete]="paquete" 
+(cerrado)="cerrarModal($event)"></app-paquetes-modal>
